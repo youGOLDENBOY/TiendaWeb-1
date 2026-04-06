@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TheVault Studio — Moda & Arte Musical</title>
+<meta name="description" content="Abrigos, t-shirts personalizados y cuadros de artistas con código Spotify. Envíos a toda República Dominicana."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#0a0a0a;--white:#fff;--gray-bg:#f5f5f3;--gray-mid:#e8e8e4;--gray-text:#777;
+  --serif:'Playfair Display',serif;--sans:'DM Sans',sans-serif;--display:'Bebas Neue',sans-serif;
+  --green:#1DB954;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--white);color:var(--black);overflow-x:hidden}
+
+/* ── ANNOUNCEMENT BAR ── */
+.topbar{background:var(--black);color:var(--white);text-align:center;padding:0.55rem 1rem;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase}
+.topbar span{color:var(--green)}
+
+/* ── NAV ── */
+nav{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 4rem;border-bottom:1px solid var(--gray-mid);background:var(--white);position:sticky;top:0;z-index:200;transition:box-shadow 0.3s}
+nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
+.logo{font-family:var(--serif);font-size:1.35rem;letter-spacing:0.04em;font-weight:700;text-decoration:none;color:var(--black)}
+.logo em{font-weight:400;font-style:italic}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{text-decoration:none;font-size:0.78rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--black);transition:color 0.2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--black);transition:width 0.3s}
+.nav-links a:hover::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.search-btn{background:none;border:none;cursor:pointer;padding:0.4rem;display:flex;align-items:center;color:var(--black)}
+.cart-trigger{background:var(--black);color:var(--white);border:none;padding:0.6rem 1.4rem;font-size:0.75rem;font-family:var(--sans);letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;gap:0.5rem}
+.cart-trigger:hover{background:#222}
+.cart-count{background:var(--green);color:#000;width:18px;height:18px;border-radius:50%;font-size:0.65rem;display:flex;align-items:center;justify-content:center;font-weight:700}
+
+/* ── HERO ── */
+.hero{display:grid;grid-template-columns:55% 45%;min-height:92vh}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:6rem 5rem 6rem 4rem}
+.hero-eyebrow{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray-text);margin-bottom:1.8rem;display:flex;align-items:center;gap:0.8rem}
+.hero-eyebrow::before{content:'';width:30px;height:1px;background:var(--gray-text)}
+.hero-title{font-family:var(--serif);font-size:4.2rem;line-height:1.06;font-weight:700;margin-bottom:2rem}
+.hero-title em{font-style:italic;font-weight:400;color:var(--gray-text)}
+.hero-desc{font-size:0.95rem;line-height:1.85;color:#555;max-width:400px;margin-bottom:3rem}
+.hero-ctas{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:1rem 2.2rem;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--sans);border:none;cursor:pointer;transition:all 0.25s;text-decoration:none;font-weight:500}
+.btn-dark{background:var(--black);color:var(--white)}
+.btn-dark:hover{background:#222}
+.btn-light{background:transparent;color:var(--black);border:1.5px solid var(--black)}
+.btn-light:hover{background:var(--black);color:var(--white)}
+.hero-stats{display:flex;gap:2.5rem;margin-top:4rem;padding-top:2.5rem;border-top:1px solid var(--gray-mid)}
+.stat-num{font-family:var(--serif);font-size:1.8rem;font-weight:700;display:block}
+.stat-label{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-text)}
+.hero-right{background:var(--gray-bg);display:grid;grid-template-rows:1fr 1fr;position:relative}
+.hero-img-top{background:#e0ddd5;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-img-bottom{display:grid;grid-template-columns:1fr 1fr}
+.hero-img-bl{background:#d8d5cc;display:flex;align-items:center;justify-content:center}
+.hero-img-br{background:#e8e4dc;display:flex;align-items:center;justify-content:center;position:relative}
+.floating-badge{position:absolute;top:1.5rem;right:1.5rem;background:var(--white);padding:1rem 1.2rem;text-align:center;border:1px solid var(--gray-mid);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.floating-badge .num{font-family:var(--serif);font-size:2rem;font-weight:700;display:block;line-height:1}
+.floating-badge .lbl{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-text);margin-top:0.3rem}
+.img-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;opacity:0.4}
+.img-placeholder p{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#666}
+
+/* ── CATEGORIES ── */
+.section{padding:5rem 4rem}
+.section-sm{padding:3rem 4rem}
+.section-header{margin-bottom:3rem}
+.section-header.center{text-align:center}
+.eyebrow{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray-text);margin-bottom:0.9rem;display:block}
+.section-title{font-family:var(--serif);font-size:2.6rem;font-weight:700;line-height:1.1}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gray-mid)}
+.cat{background:var(--white);padding:3rem;cursor:pointer;transition:background 0.2s;position:relative;overflow:hidden}
+.cat:hover{background:var(--gray-bg)}
+.cat-icon{font-size:2.5rem;margin-bottom:1.5rem;display:block}
+.cat-name{font-family:var(--serif);font-size:1.4rem;font-weight:700;margin-bottom:0.5rem}
+.cat-desc{font-size:0.82rem;color:var(--gray-text);line-height:1.6;margin-bottom:1.5rem}
+.cat-count{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-text)}
+.cat-arrow{position:absolute;bottom:3rem;right:3rem;font-size:1.2rem;transition:transform 0.3s}
+.cat:hover .cat-arrow{transform:translate(4px,-4px)}
+
+/* ── PRODUCTS ── */
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.product-card{cursor:pointer}
+.product-img-wrap{position:relative;overflow:hidden;margin-bottom:1rem}
+.product-img{height:320px;background:var(--gray-bg);display:flex;align-items:center;justify-content:center;transition:transform 0.4s}
+.product-card:hover .product-img{transform:scale(1.03)}
+.product-actions{position:absolute;bottom:0;left:0;right:0;padding:1rem;background:linear-gradient(transparent,rgba(0,0,0,0.5));opacity:0;transition:opacity 0.3s;display:flex;gap:0.5rem}
+.product-card:hover .product-actions{opacity:1}
+.add-cart-btn{flex:1;background:var(--white);color:var(--black);border:none;padding:0.7rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;font-family:var(--sans);cursor:pointer;font-weight:500;transition:all 0.2s}
+.add-cart-btn:hover{background:var(--black);color:var(--white)}
+.wishlist-btn{background:var(--white);color:var(--black);border:none;padding:0.7rem 0.9rem;cursor:pointer;transition:all 0.2s;font-size:0.9rem}
+.wishlist-btn:hover{background:var(--black);color:var(--white)}
+.badge{position:absolute;top:1rem;left:1rem;padding:0.3rem 0.7rem;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500}
+.badge-new{background:var(--black);color:var(--white)}
+.badge-hot{background:#c0392b;color:var(--white)}
+.badge-sale{background:var(--green);color:#000}
+.product-brand{font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-text);margin-bottom:0.3rem}
+.product-name{font-size:0.9rem;font-weight:500;margin-bottom:0.5rem;line-height:1.3}
+.product-pricing{display:flex;align-items:center;gap:0.7rem}
+.product-price{font-family:var(--serif);font-size:1rem;font-weight:700}
+.product-old{font-size:0.8rem;color:var(--gray-text);text-decoration:line-through}
+
+/* ── CUADROS ── */
+.frame-card{cursor:pointer}
+.poster-wrap{position:relative;overflow:hidden;margin-bottom:1rem}
+.poster{padding:1.2rem 1rem 1rem;min-height:280px;display:flex;flex-direction:column;justify-content:space-between;position:relative;transition:transform 0.4s}
+.frame-card:hover .poster{transform:scale(1.02)}
+.poster-border{border:10px solid #1a1a1a;border-bottom-width:18px}
+.p-dark{background:linear-gradient(150deg,#0d0d0d 0%,#1a1a1a 100%)}
+.p-red{background:linear-gradient(150deg,#1a0808 0%,#3d1010 100%)}
+.p-blue{background:linear-gradient(150deg,#080d1a 0%,#0f1a35 100%)}
+.p-green{background:linear-gradient(150deg,#081408 0%,#0f2e14 100%)}
+.p-purple{background:linear-gradient(150deg,#0d0814 0%,#1e0f35 100%)}
+.p-warm{background:linear-gradient(150deg,#141008 0%,#2e200f 100%)}
+.p-rose{background:linear-gradient(150deg,#140810 0%,#2e0f20 100%)}
+.p-teal{background:linear-gradient(150deg,#081414 0%,#0f2e2e 100%)}
+.artist-ph{height:130px;background:rgba(255,255,255,0.06);border-radius:2px;margin-bottom:0.8rem;display:flex;align-items:center;justify-content:center}
+.artist-sil{opacity:0.25}
+.artist-nm{font-family:var(--display);font-size:1.6rem;color:#fff;letter-spacing:0.04em;line-height:1;margin-bottom:0.2rem}
+.song-nm{font-size:0.58rem;color:rgba(255,255,255,0.45);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:0.7rem}
+.spotify-row{display:flex;align-items:center;gap:0.4rem}
+.sp-icon{width:13px;height:13px;flex-shrink:0}
+.sp-bar{flex:1;height:2px;background:rgba(255,255,255,0.12);border-radius:1px;position:relative}
+.sp-bar::after{content:'';position:absolute;left:0;top:0;height:100%;width:40%;background:var(--green);border-radius:1px}
+.sp-code{display:flex;gap:1.5px;align-items:flex-end;height:16px}
+.sp-code span{background:rgba(255,255,255,0.55);border-radius:1px;width:2px}
+.p-price{position:absolute;top:0.7rem;right:0.7rem;background:rgba(0,0,0,0.65);color:#fff;font-size:0.62rem;padding:0.25rem 0.55rem;border-radius:2px;letter-spacing:0.04em}
+.poster-actions{position:absolute;bottom:0;left:0;right:0;padding:0.8rem;opacity:0;transition:opacity 0.3s;display:flex;gap:0.4rem}
+.frame-card:hover .poster-actions{opacity:1}
+
+/* ── CUSTOM ORDER BANNER ── */
+.custom-banner{background:var(--black);color:var(--white);padding:5rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.custom-banner h2{font-family:var(--serif);font-size:2.8rem;line-height:1.1;margin-bottom:1.2rem}
+.custom-banner p{font-size:0.9rem;line-height:1.8;color:rgba(255,255,255,0.65);margin-bottom:2rem}
+.custom-steps{display:flex;flex-direction:column;gap:1.2rem}
+.step{display:flex;gap:1.2rem;align-items:flex-start}
+.step-num{font-family:var(--serif);font-size:1.8rem;font-weight:700;color:rgba(255,255,255,0.15);line-height:1;min-width:2rem}
+.step-text h4{font-size:0.82rem;font-weight:500;margin-bottom:0.2rem}
+.step-text p{font-size:0.78rem;color:rgba(255,255,255,0.5);line-height:1.5}
+.btn-green{background:var(--green);color:#000;border:none;padding:1rem 2.2rem;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--sans);cursor:pointer;font-weight:700;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.6rem}
+.btn-green:hover{background:#17a348}
+
+/* ── TESTIMONIALS ── */
+.testimonials{background:var(--gray-bg);padding:5rem 4rem}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.test-card{background:var(--white);padding:2rem;border:1px solid var(--gray-mid)}
+.stars{color:#c9a84c;font-size:0.85rem;letter-spacing:0.1em;margin-bottom:1rem}
+.test-text{font-size:0.86rem;line-height:1.8;color:#444;margin-bottom:1.5rem;font-style:italic}
+.test-author{display:flex;align-items:center;gap:0.8rem}
+.test-avatar{width:36px;height:36px;border-radius:50%;background:var(--gray-mid);display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0}
+.test-meta p{font-size:0.78rem;font-weight:500}
+.test-meta span{font-size:0.7rem;color:var(--gray-text)}
+
+/* ── INFO STRIPS ── */
+.info-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--gray-mid);border-bottom:1px solid var(--gray-mid)}
+.info-item{padding:2rem;display:flex;align-items:center;gap:1rem;border-right:1px solid var(--gray-mid)}
+.info-item:last-child{border-right:none}
+.info-icon{font-size:1.5rem;flex-shrink:0}
+.info-item h4{font-size:0.8rem;font-weight:500;margin-bottom:0.2rem}
+.info-item p{font-size:0.72rem;color:var(--gray-text);line-height:1.4}
+
+/* ── NEWSLETTER ── */
+.newsletter{padding:5rem 4rem;text-align:center}
+.newsletter h2{font-family:var(--serif);font-size:2.2rem;font-weight:700;margin-bottom:0.8rem}
+.newsletter p{font-size:0.88rem;color:var(--gray-text);margin-bottom:2.5rem}
+.email-form{display:flex;max-width:480px;margin:0 auto}
+.email-form input{flex:1;padding:1rem 1.2rem;border:1.5px solid var(--black);border-right:none;font-family:var(--sans);font-size:0.88rem;outline:none}
+.email-form input:focus{border-color:#555}
+.email-form button{background:var(--black);color:var(--white);border:none;padding:0 2rem;font-family:var(--sans);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-weight:500;transition:background 0.2s;white-space:nowrap}
+.email-form button:hover{background:#222}
+
+/* ── FOOTER ── */
+footer{background:var(--black);color:var(--white);padding:4rem 4rem 2rem}
+.footer-top{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand .logo{color:var(--white);font-size:1.3rem;display:block;margin-bottom:1rem;text-decoration:none}
+.footer-brand p{font-size:0.8rem;color:rgba(255,255,255,0.45);line-height:1.7;max-width:240px}
+.footer-social{display:flex;gap:0.7rem;margin-top:1.5rem}
+.social-btn{background:rgba(255,255,255,0.08);border:none;color:var(--white);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:0.8rem;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
+.social-btn:hover{background:rgba(255,255,255,0.2)}
+.footer-col h4{font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:1.2rem}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:0.7rem}
+.footer-col ul li a{color:rgba(255,255,255,0.65);text-decoration:none;font-size:0.8rem;transition:color 0.2s}
+.footer-col ul li a:hover{color:var(--white)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:2rem;display:flex;justify-content:space-between;align-items:center}
+.footer-bottom p{font-size:0.72rem;color:rgba(255,255,255,0.3)}
+.payment-icons{display:flex;gap:0.5rem;align-items:center}
+.pay-icon{background:rgba(255,255,255,0.1);padding:0.3rem 0.6rem;border-radius:3px;font-size:0.62rem;letter-spacing:0.05em;color:rgba(255,255,255,0.5)}
+
+/* ── CART SIDEBAR ── */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-sidebar{position:fixed;top:0;right:0;bottom:0;width:420px;background:var(--white);z-index:501;transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column}
+.cart-sidebar.open{transform:translateX(0)}
+.cart-header{padding:1.5rem 2rem;border-bottom:1px solid var(--gray-mid);display:flex;justify-content:space-between;align-items:center}
+.cart-header h3{font-family:var(--serif);font-size:1.2rem;font-weight:700}
+.close-btn{background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--black);padding:0.3rem}
+.cart-items{flex:1;overflow-y:auto;padding:1.5rem 2rem}
+.cart-empty{text-align:center;padding:3rem 0;color:var(--gray-text)}
+.cart-empty p{font-size:0.88rem;margin-top:0.5rem}
+.cart-item{display:grid;grid-template-columns:70px 1fr auto;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--gray-mid);align-items:center}
+.cart-item-img{height:70px;background:var(--gray-bg);display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.cart-item-name{font-size:0.82rem;font-weight:500;margin-bottom:0.3rem}
+.cart-item-price{font-size:0.78rem;color:var(--gray-text)}
+.cart-item-remove{background:none;border:none;cursor:pointer;color:var(--gray-text);font-size:1rem;transition:color 0.2s}
+.cart-item-remove:hover{color:var(--black)}
+.cart-qty{display:flex;align-items:center;gap:0.5rem;margin-top:0.5rem}
+.qty-btn{background:none;border:1px solid var(--gray-mid);width:24px;height:24px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.qty-btn:hover{background:var(--black);color:var(--white);border-color:var(--black)}
+.qty-num{font-size:0.82rem;font-weight:500;min-width:20px;text-align:center}
+.cart-footer{padding:1.5rem 2rem;border-top:1px solid var(--gray-mid)}
+.cart-subtotal{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem}
+.cart-subtotal span{font-size:0.82rem;color:var(--gray-text)}
+.cart-subtotal strong{font-family:var(--serif);font-size:1.1rem}
+.whatsapp-btn{width:100%;background:#25D366;color:#fff;border:none;padding:1.1rem;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;font-family:var(--sans);cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center;gap:0.7rem;transition:background 0.2s;margin-bottom:0.8rem}
+.whatsapp-btn:hover{background:#1da852}
+.whatsapp-btn svg{width:20px;height:20px}
+.cart-note{font-size:0.7rem;color:var(--gray-text);text-align:center;line-height:1.5}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--black);color:var(--white);padding:0.9rem 1.8rem;font-size:0.82rem;letter-spacing:0.04em;z-index:600;opacity:0;transition:all 0.35s;border-radius:2px;white-space:nowrap;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── WHATSAPP FLOAT ── */
+.wa-float{position:fixed;bottom:2rem;right:2rem;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:300;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:transform 0.2s,box-shadow 0.2s;border:none}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,0.5)}
+
+/* ── SCROLL TOP ── */
+.scroll-top{position:fixed;bottom:2rem;left:2rem;width:44px;height:44px;background:var(--black);color:var(--white);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:300;opacity:0;transition:opacity 0.3s;font-size:1.1rem}
+.scroll-top.visible{opacity:1}
+
+/* ── PRODUCT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:400;opacity:0;pointer-events:none;transition:opacity 0.3s;display:flex;align-items:center;justify-content:center;padding:2rem}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);max-width:700px;width:100%;max-height:90vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr}
+.modal-img{background:var(--gray-bg);display:flex;align-items:center;justify-content:center;min-height:350px;position:relative;padding:2rem}
+.modal-body{padding:2.5rem}
+.modal-brand{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-text);margin-bottom:0.5rem}
+.modal-name{font-family:var(--serif);font-size:1.6rem;font-weight:700;margin-bottom:0.5rem;line-height:1.2}
+.modal-price{font-family:var(--serif);font-size:1.4rem;margin-bottom:1.5rem}
+.modal-desc{font-size:0.84rem;line-height:1.75;color:#555;margin-bottom:1.5rem;border-top:1px solid var(--gray-mid);padding-top:1.5rem}
+.size-label{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.7rem;display:block}
+.sizes{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.size-opt{padding:0.45rem 0.9rem;border:1px solid var(--gray-mid);font-size:0.78rem;cursor:pointer;transition:all 0.2s;background:none;font-family:var(--sans)}
+.size-opt:hover,.size-opt.active{background:var(--black);color:var(--white);border-color:var(--black)}
+.modal-close{position:absolute;top:1rem;right:1rem;background:var(--white);border:none;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;z-index:1;border-radius:50%}
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="topbar">🚚 Envío gratis en compras sobre <span>RD$5,000</span> — Toda República Dominicana</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="logo">The<em>Vault</em> Studio</a>
+  <ul class="nav-links">
+    <li><a href="#abrigos">Abrigos</a></li>
+    <li><a href="#tshirts">T-Shirts</a></li>
+    <li><a href="#cuadros">Cuadros</a></li>
+    <li><a href="#personalizar">Personalizar</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="cart-trigger" onclick="toggleCart()">
+      🛒 Carrito
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Colección 2025 — Edición Limitada</p>
+    <h1 class="hero-title">Moda que lleva<br>tu <em>música</em><br>puesta.</h1>
+    <p class="hero-desc">Abrigos exclusivos, t-shirts personalizados y cuadros con código Spotify de tus artistas favoritos. Diseñado en República Dominicana.</p>
+    <div class="hero-ctas">
+      <a href="#cuadros" class="btn btn-dark">Ver Cuadros ↓</a>
+      <a href="#personalizar" class="btn btn-light">Personalizar</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <span class="stat-num">150+</span>
+        <span class="stat-label">Diseños únicos</span>
+      </div>
+      <div>
+        <span class="stat-num">500+</span>
+        <span class="stat-label">Clientes felices</span>
+      </div>
+      <div>
+        <span class="stat-num">48h</span>
+        <span class="stat-label">Entrega Santo Domingo</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-top">
+      <div class="img-placeholder">
+        <svg width="100" height="150" viewBox="0 0 100 150" fill="none"><rect x="25" y="10" width="50" height="110" rx="3" fill="#b0aba0"/><rect x="5" y="25" width="24" height="60" rx="3" fill="#a0998e"/><rect x="71" y="25" width="24" height="60" rx="3" fill="#a0998e"/><circle cx="50" cy="55" r="12" fill="#908880" opacity="0.5"/></svg>
+        <p>Foto del abrigo</p>
+      </div>
+    </div>
+    <div class="hero-img-bottom">
+      <div class="hero-img-bl">
+        <div class="img-placeholder">
+          <svg width="80" height="90" viewBox="0 0 80 90"><rect x="18" y="5" width="44" height="65" rx="2" fill="#8fada0"/><path d="M18 5 L3 22 L18 30 Z" fill="#7d9e91"/><path d="M62 5 L77 22 L62 30 Z" fill="#7d9e91"/><rect x="28" y="67" width="9" height="20" rx="2" fill="#8fada0"/><rect x="43" y="67" width="9" height="20" rx="2" fill="#8fada0"/></svg>
+          <p>T-Shirt</p>
+        </div>
+      </div>
+      <div class="hero-img-br">
+        <div class="img-placeholder">
+          <svg width="90" height="75" viewBox="0 0 90 75"><rect x="5" y="5" width="80" height="62" rx="2" fill="#b8a89e"/><rect x="12" y="12" width="66" height="48" rx="1" fill="#c8b8ae"/><rect x="20" y="20" width="50" height="32" rx="1" fill="#d4c4ba"/></svg>
+          <p>Cuadro artista</p>
+        </div>
+        <div class="floating-badge">
+          <span class="num">4.9★</span>
+          <div class="lbl">Rating clientes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <div class="info-item">
+    <span class="info-icon">🚚</span>
+    <div>
+      <h4>Envío gratis +RD$5,000</h4>
+      <p>Entregamos en todo el país en 24–72 horas</p>
+    </div>
+  </div>
+  <div class="info-item">
+    <span class="info-icon">✅</span>
+    <div>
+      <h4>Calidad garantizada</h4>
+      <p>Impresión HD y marcos premium en cada cuadro</p>
+    </div>
+  </div>
+  <div class="info-item">
+    <span class="info-icon">🎨</span>
+    <div>
+      <h4>100% personalizable</h4>
+      <p>Tu artista, tu canción, tu diseño exacto</p>
+    </div>
+  </div>
+  <div class="info-item">
+    <span class="info-icon">💬</span>
+    <div>
+      <h4>Atención por WhatsApp</h4>
+      <p>Respondemos en menos de 1 hora</p>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="section-sm" style="padding-bottom:0">
+  <div class="section-header center">
+    <span class="eyebrow">Lo que ofrecemos</span>
+    <h2 class="section-title">Tres categorías, un estilo</h2>
+  </div>
+</section>
+<div class="cats">
+  <div class="cat" onclick="document.getElementById('abrigos').scrollIntoView({behavior:'smooth'})">
+    <span class="cat-icon">🧥</span>
+    <h3 class="cat-name">Abrigos</h3>
+    <p class="cat-desc">Diseños de autor para el invierno y el aire acondicionado. Cortes modernos, telas premium.</p>
+    <span class="cat-count">24 estilos disponibles</span>
+    <span class="cat-arrow">↗</span>
+  </div>
+  <div class="cat" onclick="document.getElementById('tshirts').scrollIntoView({behavior:'smooth'})">
+    <span class="cat-icon">👕</span>
+    <h3 class="cat-name">T-Shirts Personalizados</h3>
+    <p class="cat-desc">Tu artista favorito en serigrafía de alta definición. 100% algodón, lavable.</p>
+    <span class="cat-count">80+ diseños</span>
+    <span class="cat-arrow">↗</span>
+  </div>
+  <div class="cat" onclick="document.getElementById('cuadros').scrollIntoView({behavior:'smooth'})">
+    <span class="cat-icon">🖼️</span>
+    <h3 class="cat-name">Cuadros con Spotify</h3>
+    <p class="cat-desc">Póster enmarcado con foto del artista y código Spotify funcional para escanear tu canción.</p>
+    <span class="cat-count">50+ artistas</span>
+    <span class="cat-arrow">↗</span>
+  </div>
+</div>
+
+<!-- ABRIGOS -->
+<section class="section" id="abrigos">
+  <div class="section-header">
+    <span class="eyebrow">Colección Otoño–Invierno</span>
+    <h2 class="section-title">Abrigos</h2>
+  </div>
+  <div class="products-grid">
+    <div class="product-card" onclick="openModal('Abrigo Urban Classic','Colección Otoño','RD$4,800','Abrigo oversize de alta calidad, ideal para el frío. Disponible en negro, camel y gris. Tela exterior impermeable.',['S','M','L','XL'],'🧥','p-dark')">
+      <div class="product-img-wrap">
+        <div class="product-img" style="background:#e8e4dc">
+          <div class="img-placeholder" style="opacity:0.5"><svg width="70" height="100" viewBox="0 0 70 100"><rect x="12" y="5" width="46" height="85" rx="2" fill="#a8a39a"/><rect x="2" y="15" width="15" height="45" rx="2" fill="#9e9990"/><rect x="53" y="15" width="15" height="45" rx="2" fill="#9e9990"/></svg></div>
+        </div>
+        <span class="badge badge-new">Nuevo</span>
+        <div class="product-actions">
+          <button class="add-cart-btn" onclick="event.stopPropagation();addToCart('Abrigo Urban Classic','RD$4,800','🧥')">Agregar al carrito</button>
+          <button class="wishlist-btn">♡</button>
+        </div>
+      </div>
+      <p class="product-brand">Colección Otoño</p>
+      <p class="product-name">Abrigo Urban Classic</p>
+      <div class="product-pricing"><span class="product-price">RD$4,800</span></div>
+    </div>
+    <div class="product-card" onclick="openModal('Abrigo Trench Moderno','Colección Premium','RD$5,500','Trench coat clásico con corte contemporáneo. Cinturón incluido. Tela resistente al agua.',['S','M','L','XL','XXL'],'🧥','p-warm')">
+      <div class="product-img-wrap">
+        <div class="product-img" style="background:#ede8df">
+          <div class="img-placeholder" style="opacity:0.5"><svg width="70" height="100" viewBox="0 0 70 100"><rect x="10" y="5" width="50" height="85" rx="2" fill="#c4b8a8"/><rect x="2" y="15" width="12" height="45" rx="2" fill="#b8a898"/><rect x="56" y="15" width="12" height="45" rx="2" fill="#b8a898"/></svg></div>
+        </div>
+        <span class="badge badge-hot">Hot</span>
+        <div class="product-actions">
+          <button class="add-cart-btn" onclick="event.stopPropagation();addToCart('Abrigo Trench Moderno','RD$5,500','🧥')">Agregar al carrito</button>
+          <button class="wishlist-btn">♡</button>
+        </div>
+      </div>
+      <p class="product-brand">Colección Premium</p>
+      <p class="product-name">Abrigo Trench Moderno</p>
+      <div class="product-pricing"><span class="product-price">RD$5,500</span></div>
+    </div>
+    <div class="product-card" onclick="openModal('Bomba Streetwear','Colección Urbana','RD$3,900','Bomber jacket estilo urbano. Forro interior suave. Cierre YKK de alta calidad.',['S','M','L','XL'],'🧥','p-blue')">
+      <div class="product-img-wrap">
+        <div class="product-img" style="background:#dce4ed">
+          <div class="img-placeholder" style="opacity:0.5"><svg width="70" height="95" viewBox="0 0 70 95"><rect x="10" y="10" width="50" height="70" rx="8" fill="#8aa8c8"/><rect x="2" y="15" width="12" height="40" rx="5" fill="#7a98b8"/><rect x="56" y="15" width="12" height="40" rx="5" fill="#7a98b8"/></svg></div>
+        </div>
+        <div class="product-actions">
+          <button class="add-cart-btn" onclick="event.stopPropagation();addToCart('Bomba Streetwear','RD$3,900','🧥')">Agregar al carrito</button>
+          <button class="wishlist-btn">♡</button>
+        </div>
+      </div>
+      <p class="product-brand">Colección Urbana</p>
+      <p class="product-name">Bomba Streetwear</p>
+      <div class="product-pricing"><span class="product-price">RD$3,900</span><span class="product-old">RD$4,800</span></div>
+    </div>
+    <div class="product-card" onclick="openModal('Abrigo Largo Minimal','Colección Minimal','RD$6,200','Abrigo largo estilo minimal, perfecto para el trabajo y salidas. Corte recto elegante.',['XS','S','M','L','XL'],'🧥','p-dark')">
+      <div class="product-img-wrap">
+        <div class="product-img" style="background:#e4e4e0">
+          <div class="img-placeholder" style="opacity:0.5"><svg width="60" height="115" viewBox="0 0 60 115"><rect x="10" y="5" width="40" height="100" rx="2" fill="#a8a8a0"/><rect x="2" y="15" width="12" height="50" rx="2" fill="#989890"/></svg></div>
+        </div>
+        <span class="badge badge-new">Nuevo</span>
+        <div class="product-actions">
+          <button class="add-cart-btn" onclick="event.stopPropagation();addToCart('Abrigo Largo Minimal','RD$6,200','🧥')">Agregar al carrito</button>
+          <button class="wishlist-btn">♡</button>
+        </div>
+      </div>
+      <p class="product-brand">Colección Minimal</p>
+      <p class="product-name">Abrigo Largo Minimal</p>
+      <div class="product-pricing"><span class="product-price">RD$6,200</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- T-SHIRTS -->
+<section class="section" id="tshirts" style="background:var(--gray-bg)">
+  <div class="section-header">
+    <span class="eyebrow">Diseños exclusivos</span>
+    <h2 class="section-title">T-Shirts Personalizados</h2>
+  </div>
+  <div class="products-grid">
+    <div class="product-card" onclick="openModal('T-Shirt Bad Bunny','Artistas — Bad Bunny','RD$1,200','100% algodón peinado 180g. Serigrafía de alta definición. Lavable a máquina. Disponible en blanco y negro.',['S','M','L','XL','XXL'],'👕','p-dark')">
+      <div class="product-img-wrap">
+        <div class="product-img" style="background:#e8e8e4">
+          <div class="img-placeholder" style="opacity:0.5"><svg width="75" height="85" viewBox="0 0 75 85"><rect x="18" y="5" width="39" height="62" rx="2" fill="#888"/><path d="M18 5 L3 22 L18 30 Z" fill="#777"/><path d="M57 5 L72 22 L57 30 Z" fill="#777"/><text x="37" y="42" text-anchor="middle" font-size="9" fill="#ccc" font-family="sans-serif">BAD BUNNY</text></svg></div>
+        </div>
+        <span class="badge badge-hot">Hot</span>
+        <div class="product-actions">
+          <button class="add-cart-btn" onclick="event.stopPropagation();addToCart('T-Shirt Bad Bunny','RD$1,200','👕')">Agregar al carrito</button>
+          <button class="wishlist-btn">♡</button>
+        </div>
+      </div>
+      <p class="product-brand">Artistas — Bad Bunny</p>
+      <p class="product-name">T-Shirt "El Conejo"</p>
+      <div class="product-pricing"><span class="product-price">RD$1,200</span></div>
+    </div>
+    <div class="product-card" onclick="openModal('T-Shirt Anuel AA','Artistas — Anuel AA','RD$1,200','100% algodón peinado 180g. Estampado frontal y trasero. Edición limitada.',['S','M','L','XL'],'👕','p-red')">
+      <div class="product-img-wrap">
+        <div class="product-img" style="background:#ece8e4">
+          <div class="img-placeholder" style="opacity:0.5"><svg width="75" height="85" viewBox="0 0 75 85"><rect x="18" y="5" width="39" height="62" rx="2" fill="#999"/><path d="M18 5 L3 22 L18 30 Z" fill="#888"/><path d="M57 5 L72 22 L57 30 Z" fill="#888"/><text x="37" y="42" text-anchor="middle" font-size="8" fill="#ccc" font-family="sans-serif">ANUEL AA</text></svg></div>
+        </div>
+        <div class="product-actions">
+          <button class="add-cart-btn" onclick="event.stopPropagation();addToCart('T-Shirt Anuel AA','RD$1,200','👕')">Agregar al carrito</button>
+          <button class="wishlist-btn">♡</button>
+        </div>
+      </div>
+      <p class="product-brand">Artistas — Anuel AA</p>
+      <p class="product-name">T-Shirt "Real Hasta la Muerte"</p>
+      <div class="product-pricing"><span class="product-price">RD$1,200</span></div>
+    </div>
+    <div class="product-card" onclick="openModal('T-Shirt Canserbero','Artistas — Canserbero','RD$1,200','Diseño artístico premium. Algodón 100%. Edición especial limitada.',['S','M','L','XL'],'👕','p-warm')">
+      <div class="product-img-wrap">
+        <div class="product-img" style="background:#ede8e0">
+          <div class="img-placeholder" style="opacity:0.5"><svg width="75" height="85" viewBox="0 0 75 85"><rect x="18" y="5" width="39" height="62" rx="2" fill="#a0978c"/><path d="M18 5 L3 22 L18 30 Z" fill="#908780"/><path d="M57 5 L72 22 L57 30 Z" fill="#908780"/><text x="37" y="42" text-anchor="middle" font-size="7" fill="#ddd" font-family="sans-serif">CANSERBERO</text></svg></div>
+        </div>
+        <span class="badge badge-sale">-20%</span>
+        <div class="product-actions">
+          <button class="add-cart-btn" onclick="event.stopPropagation();addToCart('T-Shirt Canserbero','RD$1,200','👕')">Agregar al carrito</button>
+          <button class="wishlist-btn">♡</button>
+        </div>
+      </div>
+      <p class="product-brand">Artistas — Canserbero</p>
+      <p class="product-name">T-Shirt "Es Épico"</p>
+      <div class="product-pricing"><span class="product-price">RD$960</span><span class="product-old">RD$1,200</span></div>
+    </div>
+    <div class="product-card" onclick="openModal('T-Shirt Feid','Artistas — Feid','RD$1,200','Diseño Ferxxo exclusivo. 100% algodón ring-spun. Edición numerada.',['S','M','L','XL','XXL'],'👕','p-purple')">
+      <div class="product-img-wrap">
+        <div class="product-img" style="background:#e8e4ee">
+          <div class="img-placeholder" style="opacity:0.5"><svg width="75" height="85" viewBox="0 0 75 85"><rect x="18" y="5" width="39" height="62" rx="2" fill="#9888b0"/><path d="M18 5 L3 22 L18 30 Z" fill="#8878a0"/><path d="M57 5 L72 22 L57 30 Z" fill="#8878a0"/><text x="37" y="42" text-anchor="middle" font-size="9" fill="#eee" font-family="sans-serif">FEID</text></svg></div>
+        </div>
+        <div class="product-actions">
+          <button class="add-cart-btn" onclick="event.stopPropagation();addToCart('T-Shirt Feid','RD$1,200','👕')">Agregar al carrito</button>
+          <button class="wishlist-btn">♡</button>
+        </div>
+      </div>
+      <p class="product-brand">Artistas — Feid</p>
+      <p class="product-name">T-Shirt "Ferxxo"</p>
+      <div class="product-pricing"><span class="product-price">RD$1,200</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CUADROS -->
+<section class="section" id="cuadros">
+  <div class="section-header">
+    <span class="eyebrow">Enmarcados Premium — Código Spotify incluido</span>
+    <h2 class="section-title">Cuadros de Artistas</h2>
+  </div>
+  <div class="products-grid">
+    <!-- Anuel -->
+    <div class="frame-card">
+      <div class="poster-wrap">
+        <div class="poster poster-border p-dark" onclick="openModal('Cuadro Anuel AA','Cuadros Premium','RD$3,500','Póster enmarcado con foto profesional de Anuel AA, tipografía exclusiva y código Spotify funcional. Marco negro premium. Disponible en 20x30, 30x40 y 40x50 cm.',['20x30 cm','30x40 cm','40x50 cm'],'🖼️','p-dark')">
+          <span class="p-price">RD$3,500</span>
+          <div class="artist-ph"><svg class="artist-sil" width="48" height="65" viewBox="0 0 48 65" fill="none"><ellipse cx="24" cy="14" rx="11" ry="12" fill="#fff"/><path d="M2 64 C2 42 46 42 46 64" fill="#fff"/></svg></div>
+          <div>
+            <p class="artist-nm">ANUEL AA</p>
+            <p class="song-nm">Real Hasta La Muerte</p>
+            <div class="spotify-row">
+              <svg class="sp-icon" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+              <div class="sp-bar"></div>
+              <div class="sp-code"><span style="height:8px"></span><span style="height:14px"></span><span style="height:6px"></span><span style="height:12px"></span><span style="height:4px"></span><span style="height:10px"></span><span style="height:16px"></span><span style="height:8px"></span><span style="height:6px"></span><span style="height:12px"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="poster-actions">
+          <button class="add-cart-btn" onclick="addToCart('Cuadro Anuel AA','RD$3,500','🖼️')">Agregar al carrito</button>
+          <button class="wishlist-btn">♡</button>
+        </div>
+      </div>
+      <p class="product-brand">Cuadros Premium</p>
+      <p class="product-name">Anuel AA — Real Hasta La Muerte</p>
+      <div class="product-pricing"><span class="product-price">RD$3,500</span></div>
+    </div>
+    <!-- Milo J -->
+    <div class="frame-card">
+      <div class="poster-wrap">
+        <div class="poster poster-border p-rose" onclick="openModal('Cuadro Milo J','Cuadros Premium','RD$3,500','Póster enmarcado Milo J. Código Spotify funcional. Marco negro premium. 20x30, 30x40, 40x50 cm.',['20x30 cm','30x40 cm','40x50 cm'],'🖼️','p-rose')">
+          <span class="p-price">RD$3,500</span>
+          <div class="artist-ph"><svg class="artist-sil" width="48" height="65" viewBox="0 0 48 65" fill="none"><ellipse cx="24" cy="14" rx="11" ry="12" fill="#fff"/><path d="M2 64 C2 42 46 42 46 64" fill="#fff"/></svg></div>
+          <div>
+            <p class="artist-nm">MILO J</p>
+            <p class="song-nm">Tamo Bien</p>
+            <div class="spotify-row">
+              <svg class="sp-icon" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+              <div class="sp-bar"></div>
+              <div class="sp-code"><span style="height:12px"></span><span style="height:6px"></span><span style="height:14px"></span><span style="height:8px"></span><span style="height:16px"></span><span style="height:4px"></span><span style="height:10px"></span><span style="height:14px"></span><span style="height:6px"></span><span style="height:8px"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="poster-actions">
+          <button class="add-cart-btn" onclick="addToCart('Cuadro Milo J','RD$3,500','🖼️')">Agregar al carrito</button>
+          <button class="wishlist-btn">♡</button>
+        </div>
+      </div>
+      <p class="product-brand">Cuadros Premium</p>
+      <p class="product-name">Milo J — Tamo Bien</p>
+      <div class="product-pricing"><span class="product-price">RD$3,500</span></div>
+    </div>
+    <!-- Bad Bunny -->
+    <div class="frame-card">
+      <div class="poster-wrap">
+        <div class="poster poster-border p-blue" onclick="openModal('Cuadro Bad Bunny','Cuadros Premium','RD$3,500','Póster Bad Bunny edición especial. Código Spotify. Marco negro premium.',['20x30 cm','30x40 cm','40x50 cm'],'🖼️','p-blue')">
+          <span class="p-price">RD$3,500</span>
+          <span class="badge badge-hot" style="position:absolute;top:0.7rem;left:0.7rem">Hot</span>
+          <div class="artist-ph"><svg class="artist-sil" width="48" height="65" viewBox="0 0 48 65" fill="none"><ellipse cx="24" cy="14" rx="11" ry="12" fill="#fff"/><path d="M2 64 C2 42 46 42 46 64" fill="#fff"/></svg></div>
+          <div>
+            <p class="artist-nm">BAD BUNNY</p>
+            <p class="song-nm">Un Verano Sin Ti</p>
+            <div class="spotify-row">
+              <svg class="sp-icon" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+              <div class="sp-bar"></div>
+              <div class="sp-code"><span style="height:6px"></span><span style="height:16px"></span><span style="height:8px"></span><span style="height:12px"></span><span style="height:4px"></span><span style="height:14px"></span><span style="height:8px"></span><span style="height:10px"></span><span style="height:16px"></span><span style="height:6px"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="poster-actions">
+          <button class="add-cart-btn" onclick="addToCart('Cuadro Bad Bunny','RD$3,500','🖼️')">Agregar al carrito</button>
+          <button class="wishlist-btn">♡</button>
+        </div>
+      </div>
+      <p class="product-brand">Cuadros Premium</p>
+      <p class="product-name">Bad Bunny — Un Verano Sin Ti</p>
+      <div class="product-pricing"><span class="product-price">RD$3,500</span></div>
+    </div>
+    <!-- Canserbero -->
+    <div class="frame-card">
+      <div class="poster-wrap">
+        <div class="poster poster-border p-warm" onclick="openModal('Cuadro Canserbero','Cuadros Premium','RD$3,500','Edición especial homenaje. Impresión HD. Marco negro premium.',['20x30 cm','30x40 cm','40x50 cm'],'🖼️','p-warm')">
+          <span class="p-price">RD$3,500</span>
+          <div class="artist-ph"><svg class="artist-sil" width="48" height="65" viewBox="0 0 48 65" fill="none"><ellipse cx="24" cy="14" rx="11" ry="12" fill="#fff"/><path d="M2 64 C2 42 46 42 46 64" fill="#fff"/></svg></div>
+          <div>
+            <p class="artist-nm">CANSERBERO</p>
+            <p class="song-nm">Quién Soy Yo</p>
+            <div class="spotify-row">
+              <svg class="sp-icon" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+              <div class="sp-bar"></div>
+              <div class="sp-code"><span style="height:10px"></span><span style="height:14px"></span><span style="height:6px"></span><span style="height:16px"></span><span style="height:8px"></span><span style="height:12px"></span><span style="height:4px"></span><span style="height:10px"></span><span style="height:14px"></span><span style="height:8px"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="poster-actions">
+          <button class="add-cart-btn" onclick="addToCart('Cuadro Canserbero','RD$3,500','🖼️')">Agregar al carrito</button>
+          <button class="wishlist-btn">♡</button>
+        </div>
+      </div>
+      <p class="product-brand">Cuadros Premium</p>
+      <p class="product-name">Canserbero — Quién Soy Yo</p>
+      <div class="product-pricing"><span class="product-price">RD$3,500</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOM ORDER -->
+<section class="custom-banner" id="personalizar">
+  <div>
+    <h2>¿No encuentras<br><em style="font-style:italic">tu artista?</em></h2>
+    <p>Diseñamos cualquier cuadro o t-shirt con el artista que tú elijas. Bachata, dembow, salsa, reggaeton, pop, rock — sin límites. Solo dinos quién y cuál canción.</p>
+    <button class="btn-green" onclick="sendWhatsApp('personalizar')">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Pedir por WhatsApp
+    </button>
+  </div>
+  <div class="custom-steps">
+    <div class="step">
+      <span class="step-num">01</span>
+      <div class="step-text">
+        <h4>Elige el artista y la canción</h4>
+        <p>Dinos a quién quieres y qué canción va en el código Spotify</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <div class="step-text">
+        <h4>Te enviamos una previsualización</h4>
+        <p>En menos de 24 horas ves cómo va a quedar antes de pagar</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <div class="step-text">
+        <h4>Confirmas y te lo enviamos</h4>
+        <p>Entrega en 24–72 horas en toda República Dominicana</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-header center">
+    <span class="eyebrow">Reseñas verificadas</span>
+    <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card">
+      <p class="stars">★★★★★</p>
+      <p class="test-text">"El cuadro de Bad Bunny quedó increíble. La calidad del marco y la impresión es top. El código Spotify funciona perfecto, mis amigos quedaron locos cuando lo escanearon."</p>
+      <div class="test-author">
+        <div class="test-avatar" style="background:#e8e4dc">MG</div>
+        <div class="test-meta"><p>María González</p><span>Santo Domingo</span></div>
+      </div>
+    </div>
+    <div class="test-card">
+      <p class="stars">★★★★★</p>
+      <p class="test-text">"Pedí 3 t-shirts personalizados y llegaron en 2 días. El estampado no se fue al lavar, la calidad del algodón es la mejor que he comprado online en RD."</p>
+      <div class="test-author">
+        <div class="test-avatar" style="background:#e4ece8">CR</div>
+        <div class="test-meta"><p>Carlos Reyes</p><span>Santiago</span></div>
+      </div>
+    </div>
+    <div class="test-card">
+      <p class="stars">★★★★★</p>
+      <p class="test-text">"Compré el abrigo trench y me lo pusieron con mi nombre bordado. Excelente atención por WhatsApp, respondieron rapidísimo y me mandaron foto del producto antes de enviarlo."</p>
+      <div class="test-author">
+        <div class="test-avatar" style="background:#ece4ec">PM</div>
+        <div class="test-meta"><p>Paola Méndez</p><span>La Romana</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <span class="eyebrow" style="display:block">Mantente al día</span>
+  <h2>Nuevos diseños cada semana</h2>
+  <p>Suscríbete y sé el primero en ver los nuevos lanzamientos y ofertas exclusivas.</p>
+  <div class="email-form">
+    <input type="email" placeholder="tu@correo.com" id="emailInput"/>
+    <button onclick="subscribeEmail()">Suscribirme</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contacto">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="font-family:'Playfair Display',serif">The<em style="font-style:italic;font-weight:400">Vault</em> Studio</a>
+      <p>Moda de autor para quienes viven la música. Diseñado y enviado desde República Dominicana.</p>
+      <div class="footer-social">
+        <button class="social-btn" onclick="window.open('https://instagram.com')">IG</button>
+        <button class="social-btn" onclick="window.open('https://tiktok.com')">TK</button>
+        <button class="social-btn" onclick="sendWhatsApp('hola')">WA</button>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Tienda</h4>
+      <ul>
+        <li><a href="#abrigos">Abrigos</a></li>
+        <li><a href="#tshirts">T-Shirts</a></li>
+        <li><a href="#cuadros">Cuadros</a></li>
+        <li><a href="#personalizar">Personalizar</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ayuda</h4>
+      <ul>
+        <li><a href="#">Guía de tallas</a></li>
+        <li><a href="#">Envíos y entregas</a></li>
+        <li><a href="#">Cambios y devoluciones</a></li>
+        <li><a href="#">Preguntas frecuentes</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="#" onclick="sendWhatsApp('hola')">WhatsApp</a></li>
+        <li><a href="mailto:info@thevaultstudio.do">Email</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">TikTok</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 TheVault Studio. Todos los derechos reservados. República Dominicana.</p>
+    <div class="payment-icons">
+      <span class="pay-icon">Transferencia</span>
+      <span class="pay-icon">PayPal</span>
+      <span class="pay-icon">Efectivo</span>
+      <span class="pay-icon">Azul</span>
+    </div>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>Tu carrito</h3>
+    <button class="close-btn" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItemsContainer">
+    <div class="cart-empty" id="cartEmpty">
+      <div style="font-size:2.5rem">🛒</div>
+      <p>Tu carrito está vacío</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-subtotal">
+      <span>Subtotal</span>
+      <strong id="cartTotal">RD$0</strong>
+    </div>
+    <button class="whatsapp-btn" onclick="checkoutWhatsApp()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Pedir por WhatsApp
+    </button>
+    <p class="cart-note">Al hacer clic, te redirigimos a WhatsApp con tu pedido listo para enviar. Coordinamos el pago contigo directamente.</p>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="productModal">
+    <div class="modal-img" id="modalImg">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div style="font-size:4rem" id="modalEmoji">🖼️</div>
+    </div>
+    <div class="modal-body">
+      <p class="modal-brand" id="modalBrand">—</p>
+      <h2 class="modal-name" id="modalName">Producto</h2>
+      <p class="modal-price" id="modalPrice">RD$0</p>
+      <div id="sizesSection">
+        <span class="size-label">Selecciona tamaño / talla</span>
+        <div class="sizes" id="sizesContainer"></div>
+      </div>
+      <p class="modal-desc" id="modalDesc">—</p>
+      <div style="display:flex;gap:0.8rem">
+        <button class="btn btn-dark" style="flex:1" id="modalAddBtn" onclick="modalAddToCart()">Agregar al carrito</button>
+        <button class="wishlist-btn" style="border:1.5px solid var(--gray-mid);padding:0.8rem">♡</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Producto agregado al carrito</div>
+
+<!-- WHATSAPP FLOAT -->
+<button class="wa-float" onclick="sendWhatsApp('hola')" title="Chatea con nosotros">
+  <svg viewBox="0 0 24 24" fill="white" width="26" height="26"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</button>
+
+<!-- SCROLL TOP -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ── CONFIG ──
+ const WA_NUMBER = '18296744989';// <-- Cambiar al número real
+
+// ── CART STATE ──
+let cart = [];
+let currentModal = {};
+let selectedSize = '';
+
+// ── CART FUNCTIONS ──
+function addToCart(name, price, emoji) {
+  const existing = cart.find(i => i.name === name);
+  if (existing) { existing.qty++; }
+  else { cart.push({name, price, emoji, qty:1}); }
+  updateCartUI();
+  showToast('✓ ' + name + ' agregado');
+}
+
+function removeFromCart(idx) {
+  cart.splice(idx, 1);
+  updateCartUI();
+}
+
+function changeQty(idx, delta) {
+  cart[idx].qty += delta;
+  if (cart[idx].qty <= 0) removeFromCart(idx);
+  else updateCartUI();
+}
+
+function updateCartUI() {
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+  
+  const container = document.getElementById('cartItemsContainer');
+  const empty = document.getElementById('cartEmpty');
+  
+  if (cart.length === 0) {
+    empty.style.display = 'block';
+    const items = container.querySelectorAll('.cart-item');
+    items.forEach(el => el.remove());
+    document.getElementById('cartTotal').textContent = 'RD$0';
+    return;
+  }
+  
+  empty.style.display = 'none';
+  const existing = container.querySelectorAll('.cart-item');
+  existing.forEach(el => el.remove());
+  
+  let total = 0;
+  cart.forEach((item, idx) => {
+    const priceNum = parseInt(item.price.replace(/[^0-9]/g,''));
+    total += priceNum * item.qty;
+    const el = document.createElement('div');
+    el.className = 'cart-item';
+    el.innerHTML = `
+      <div class="cart-item-img">${item.emoji}</div>
+      <div>
+        <p class="cart-item-name">${item.name}</p>
+        <p class="cart-item-price">${item.price}</p>
+        <div class="cart-qty">
+          <button class="qty-btn" onclick="changeQty(${idx},-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${idx},1)">+</button>
+        </div>
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${idx})">✕</button>
+    `;
+    container.appendChild(el);
+  });
+  
+  document.getElementById('cartTotal').textContent = 'RD$' + total.toLocaleString();
+}
+
+function toggleCart() {
+  const sidebar = document.getElementById('cartSidebar');
+  const overlay = document.getElementById('cartOverlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+// ── CHECKOUT WHATSAPP ──
+function checkoutWhatsApp() {
+  if (cart.length === 0) { showToast('Tu carrito está vacío'); return; }
+  let msg = '¡Hola! Quiero hacer este pedido:%0A%0A';
+  cart.forEach(item => {
+    msg += `• ${item.name} x${item.qty} — ${item.price}%0A`;
+  });
+  const total = cart.reduce((s,i) => s + parseInt(i.price.replace(/[^0-9]/g,'')) * i.qty, 0);
+  msg += `%0A*Total: RD$${total.toLocaleString()}*%0A%0APor favor confirmen disponibilidad y método de pago. ¡Gracias!`;
+  window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank');
+}
+
+function sendWhatsApp(tipo) {
+  let msg = '';
+  if (tipo === 'personalizar') {
+    msg = '¡Hola! Me interesa un cuadro o t-shirt personalizado. ¿Pueden ayudarme?';
+  } else {
+    msg = '¡Hola! Entré desde la tienda web y tengo una pregunta. 😊';
+  }
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ── MODAL ──
+function openModal(name, brand, price, desc, sizes, emoji, bg) {
+  currentModal = {name, brand, price, desc, sizes, emoji, bg};
+  selectedSize = '';
+  document.getElementById('modalName').textContent = name;
+  document.getElementById('modalBrand').textContent = brand;
+  document.getElementById('modalPrice').textContent = price;
+  document.getElementById('modalDesc').textContent = desc;
+  document.getElementById('modalEmoji').textContent = emoji;
+  
+  const imgDiv = document.getElementById('modalImg');
+  imgDiv.className = 'modal-img ' + (bg || '');
+  
+  const sizesContainer = document.getElementById('sizesContainer');
+  sizesContainer.innerHTML = '';
+  if (sizes && sizes.length > 0) {
+    sizes.forEach(s => {
+      const btn = document.createElement('button');
+      btn.className = 'size-opt';
+      btn.textContent = s;
+      btn.onclick = () => {
+        sizesContainer.querySelectorAll('.size-opt').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedSize = s;
+      };
+      sizesContainer.appendChild(btn);
+    });
+  }
+  
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function modalAddToCart() {
+  if (!selectedSize && currentModal.sizes && currentModal.sizes.length > 0) {
+    showToast('⚠ Selecciona un tamaño primero');
+    return;
+  }
+  const fullName = selectedSize ? `${currentModal.name} (${selectedSize})` : currentModal.name;
+  addToCart(fullName, currentModal.price, currentModal.emoji);
+  closeModal();
+  setTimeout(toggleCart, 300);
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── NEWSLETTER ──
+function subscribeEmail() {
+  const input = document.getElementById('emailInput');
+  if (!input.value || !input.value.includes('@')) { showToast('⚠ Ingresa un email válido'); return; }
+  showToast('✓ ¡Suscrito! Gracias por unirte');
+  input.value = '';
+}
+
+// ── SCROLL EFFECTS ──
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  const scrollTop = document.getElementById('scrollTop');
+  if (window.scrollY > 80) { nav.classList.add('scrolled'); scrollTop.classList.add('visible'); }
+  else { nav.classList.remove('scrolled'); scrollTop.classList.remove('visible'); }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — TheVault Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#0a0a0a;--white:#fff;--gray-bg:#f5f5f3;--gray-mid:#e8e8e4;--gray-text:#777;
+  --green:#1DB954;--red:#e74c3c;--blue:#2980b9;--orange:#e67e22;
+  --serif:'Playfair Display',serif;--sans:'DM Sans',sans-serif;
+}
+body{font-family:var(--sans);background:var(--gray-bg);color:var(--black);min-height:100vh}
+
+/* LOGIN */
+.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--black)}
+.login-box{background:var(--white);padding:3rem;width:100%;max-width:400px}
+.login-logo{font-family:var(--serif);font-size:1.4rem;font-weight:700;margin-bottom:0.3rem}
+.login-logo em{font-weight:400;font-style:italic}
+.login-sub{font-size:0.78rem;color:var(--gray-text);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:2.5rem}
+.field{margin-bottom:1.2rem}
+.field label{display:block;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-text);margin-bottom:0.5rem}
+.field input{width:100%;padding:0.85rem 1rem;border:1.5px solid var(--gray-mid);font-family:var(--sans);font-size:0.9rem;outline:none;transition:border-color 0.2s}
+.field input:focus{border-color:var(--black)}
+.login-btn{width:100%;background:var(--black);color:var(--white);border:none;padding:1rem;font-family:var(--sans);font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;margin-top:0.5rem}
+.login-btn:hover{background:#222}
+.login-error{color:var(--red);font-size:0.8rem;margin-top:0.8rem;display:none;padding:0.7rem;background:#fef0f0;border-left:3px solid var(--red)}
+
+/* ADMIN LAYOUT */
+.admin-page{display:none;min-height:100vh}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:240px;background:var(--black);color:var(--white);display:flex;flex-direction:column;z-index:100}
+.sidebar-logo{padding:2rem 1.5rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sidebar-logo .logo{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--white)}
+.sidebar-logo .logo em{font-weight:400;font-style:italic}
+.sidebar-logo p{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-top:0.3rem}
+.sidebar-nav{flex:1;padding:1.5rem 0}
+.nav-section{padding:0 1.5rem;margin-bottom:0.3rem}
+.nav-section-label{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:0.5rem;display:block}
+.nav-item{display:flex;align-items:center;gap:0.8rem;padding:0.7rem 1.5rem;color:rgba(255,255,255,0.6);font-size:0.82rem;cursor:pointer;transition:all 0.2s;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{color:var(--white);background:rgba(255,255,255,0.06)}
+.nav-item.active{color:var(--white);background:rgba(255,255,255,0.1)}
+.nav-item .icon{font-size:1rem;width:20px;text-align:center}
+.sidebar-footer{padding:1.5rem;border-top:1px solid rgba(255,255,255,0.08)}
+.logout-btn{display:flex;align-items:center;gap:0.7rem;color:rgba(255,255,255,0.4);font-size:0.78rem;cursor:pointer;background:none;border:none;transition:color 0.2s;width:100%}
+.logout-btn:hover{color:var(--white)}
+
+/* MAIN CONTENT */
+.main{margin-left:240px;padding:2.5rem;min-height:100vh}
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+.page-title{font-family:var(--serif);font-size:1.8rem;font-weight:700}
+.page-sub{font-size:0.8rem;color:var(--gray-text);margin-top:0.2rem}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:2rem}
+.stat-card{background:var(--white);padding:1.5rem;border:1px solid var(--gray-mid)}
+.stat-label{font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-text);margin-bottom:0.5rem}
+.stat-num{font-family:var(--serif);font-size:2rem;font-weight:700;line-height:1}
+.stat-change{font-size:0.72rem;margin-top:0.4rem}
+.stat-up{color:var(--green)}
+.stat-down{color:var(--red)}
+
+/* TABS */
+.tab-bar{display:flex;gap:0;border-bottom:1px solid var(--gray-mid);margin-bottom:2rem}
+.tab{padding:0.8rem 1.5rem;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;color:var(--gray-text);transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--sans)}
+.tab.active{color:var(--black);border-bottom-color:var(--black)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* PRODUCTS TABLE */
+.table-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem}
+.search-input{padding:0.65rem 1rem;border:1.5px solid var(--gray-mid);font-family:var(--sans);font-size:0.85rem;outline:none;width:260px;transition:border-color 0.2s}
+.search-input:focus{border-color:var(--black)}
+.btn{padding:0.7rem 1.4rem;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;font-family:var(--sans);cursor:pointer;border:none;font-weight:500;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.4rem}
+.btn-dark{background:var(--black);color:var(--white)}
+.btn-dark:hover{background:#222}
+.btn-outline{background:transparent;color:var(--black);border:1.5px solid var(--gray-mid)}
+.btn-outline:hover{border-color:var(--black)}
+.btn-red{background:var(--red);color:var(--white)}
+.btn-red:hover{background:#c0392b}
+.btn-green{background:var(--green);color:#000;font-weight:700}
+.btn-sm{padding:0.4rem 0.8rem;font-size:0.68rem}
+
+.products-table{background:var(--white);border:1px solid var(--gray-mid);width:100%;border-collapse:collapse}
+.products-table th{padding:0.9rem 1.2rem;text-align:left;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-text);border-bottom:1px solid var(--gray-mid);font-weight:500;background:var(--gray-bg)}
+.products-table td{padding:1rem 1.2rem;font-size:0.85rem;border-bottom:1px solid var(--gray-mid);vertical-align:middle}
+.products-table tr:last-child td{border-bottom:none}
+.products-table tr:hover td{background:#fafaf8}
+.product-emoji{font-size:1.5rem;margin-right:0.5rem}
+.product-info-cell{display:flex;align-items:center;gap:0.8rem}
+.product-name-cell{font-weight:500}
+.product-cat{font-size:0.72rem;color:var(--gray-text)}
+.status-badge{display:inline-block;padding:0.25rem 0.7rem;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;font-weight:500;border-radius:2px}
+.status-active{background:#e8f5e9;color:#2e7d32}
+.status-inactive{background:#fef0f0;color:#c62828}
+.price-cell{font-family:var(--serif);font-weight:700}
+.actions-cell{display:flex;gap:0.5rem}
+
+/* MODAL / FORM */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:2rem}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
+.modal-header{padding:1.5rem 2rem;border-bottom:1px solid var(--gray-mid);display:flex;justify-content:space-between;align-items:center}
+.modal-header h3{font-family:var(--serif);font-size:1.2rem;font-weight:700}
+.close-btn{background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--gray-text);transition:color 0.2s}
+.close-btn:hover{color:var(--black)}
+.modal-body{padding:2rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-field{margin-bottom:1.2rem}
+.form-field.full{grid-column:1/-1}
+.form-field label{display:block;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-text);margin-bottom:0.5rem}
+.form-field input,.form-field select,.form-field textarea{width:100%;padding:0.8rem 1rem;border:1.5px solid var(--gray-mid);font-family:var(--sans);font-size:0.88rem;outline:none;transition:border-color 0.2s;background:var(--white)}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--black)}
+.form-field textarea{resize:vertical;min-height:80px}
+.toggle-field{display:flex;align-items:center;justify-content:space-between;padding:0.8rem 0;border-bottom:1px solid var(--gray-mid)}
+.toggle-field:last-child{border-bottom:none}
+.toggle-label{font-size:0.85rem;font-weight:500}
+.toggle-sub{font-size:0.72rem;color:var(--gray-text);margin-top:0.1rem}
+.toggle{position:relative;width:44px;height:24px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--gray-mid);border-radius:24px;transition:background 0.2s}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:var(--white);border-radius:50%;transition:transform 0.2s}
+.toggle input:checked + .toggle-slider{background:var(--green)}
+.toggle input:checked + .toggle-slider::before{transform:translateX(20px)}
+.modal-footer{padding:1.5rem 2rem;border-top:1px solid var(--gray-mid);display:flex;justify-content:flex-end;gap:0.8rem}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--black);color:var(--white);padding:0.9rem 1.5rem;font-size:0.82rem;z-index:500;opacity:0;transition:all 0.3s;pointer-events:none;transform:translateY(10px)}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.success{background:#1a5c2a}
+.toast.error{background:#8b1a1a}
+
+/* LOADING */
+.loading{text-align:center;padding:3rem;color:var(--gray-text);font-size:0.88rem}
+.spinner{width:32px;height:32px;border:3px solid var(--gray-mid);border-top-color:var(--black);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--gray-text)}
+.empty-state .emoji{font-size:3rem;margin-bottom:1rem}
+.empty-state p{font-size:0.88rem}
+
+/* SETTINGS */
+.settings-card{background:var(--white);border:1px solid var(--gray-mid);padding:2rem;margin-bottom:1.5rem}
+.settings-card h3{font-size:0.9rem;font-weight:500;margin-bottom:0.3rem}
+.settings-card p{font-size:0.78rem;color:var(--gray-text);margin-bottom:1.5rem}
+.settings-card .divider{border:none;border-top:1px solid var(--gray-mid);margin:1.5rem 0}
+</style>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div class="login-page" id="loginPage">
+  <div class="login-box">
+    <div class="login-logo">The<em>Vault</em> Studio</div>
+    <div class="login-sub">Panel de Administración</div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="admin@thevault.do" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Entrar al panel</button>
+    <div class="login-error" id="loginError">Email o contraseña incorrectos.</div>
+  </div>
+</div>
+
+<!-- ADMIN PAGE -->
+<div class="admin-page" id="adminPage">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo">The<em>Vault</em> Studio</div>
+      <p>Panel de administración</p>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <span class="nav-section-label">Principal</span>
+        <button class="nav-item active" onclick="showSection('dashboard',this)">
+          <span class="icon">📊</span> Dashboard
+        </button>
+        <button class="nav-item" onclick="showSection('productos',this)">
+          <span class="icon">📦</span> Productos
+        </button>
+        <button class="nav-item" onclick="showSection('pedidos',this)">
+          <span class="icon">🛒</span> Pedidos
+        </button>
+      </div>
+      <div class="nav-section" style="margin-top:1rem">
+        <span class="nav-section-label">Configuración</span>
+        <button class="nav-item" onclick="showSection('configuracion',this)">
+          <span class="icon">⚙️</span> Configuración
+        </button>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="doLogout()">
+        <span>↩</span> Cerrar sesión
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- DASHBOARD -->
+    <div id="section-dashboard" class="tab-content active">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-sub">Resumen general de tu tienda</p>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <p class="stat-label">Productos activos</p>
+          <p class="stat-num" id="statProductos">—</p>
+          <p class="stat-change stat-up" id="statProductosChange"></p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Pedidos del mes</p>
+          <p class="stat-num" id="statPedidos">—</p>
+          <p class="stat-change stat-up"></p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Número WhatsApp</p>
+          <p class="stat-num" style="font-size:1.1rem;padding-top:0.5rem" id="statWA">—</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Estado tienda</p>
+          <p class="stat-num" style="font-size:1.1rem;padding-top:0.5rem;color:var(--green)" id="statEstado">Activa ✓</p>
+        </div>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--gray-mid);padding:2rem">
+        <h3 style="font-family:var(--serif);font-size:1.1rem;margin-bottom:1.5rem">Acciones rápidas</h3>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+          <button class="btn btn-dark" onclick="showSection('productos',document.querySelector('.nav-item:nth-child(2))'));openProductModal()">+ Agregar producto</button>
+          <button class="btn btn-outline" onclick="showSection('configuracion',document.querySelectorAll('.nav-item')[2])">⚙ Configuración</button>
+          <button class="btn btn-green" onclick="window.open('index.html','_blank')">↗ Ver tienda</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div id="section-productos" class="tab-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Productos</h1>
+          <p class="page-sub" id="productCount">Cargando...</p>
+        </div>
+        <button class="btn btn-dark" onclick="openProductModal()">+ Agregar producto</button>
+      </div>
+
+      <!-- TABS POR CATEGORÍA -->
+      <div class="tab-bar">
+        <button class="tab active" onclick="filterCategory('todos',this)">Todos</button>
+        <button class="tab" onclick="filterCategory('abrigo',this)">Abrigos</button>
+        <button class="tab" onclick="filterCategory('tshirt',this)">T-Shirts</button>
+        <button class="tab" onclick="filterCategory('cuadro',this)">Cuadros</button>
+      </div>
+
+      <div class="table-header">
+        <input class="search-input" type="text" placeholder="Buscar producto..." oninput="searchProducts(this.value)"/>
+      </div>
+
+      <div id="productsLoading" class="loading">
+        <div class="spinner"></div>
+        Cargando productos...
+      </div>
+
+      <table class="products-table" id="productsTable" style="display:none">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="productsBody"></tbody>
+      </table>
+
+      <div class="empty-state" id="productsEmpty" style="display:none">
+        <div class="emoji">📦</div>
+        <p>No hay productos todavía.</p>
+        <button class="btn btn-dark" style="margin-top:1rem" onclick="openProductModal()">+ Agregar el primero</button>
+      </div>
+    </div>
+
+    <!-- PEDIDOS -->
+    <div id="section-pedidos" class="tab-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Pedidos</h1>
+          <p class="page-sub">Los pedidos llegan por WhatsApp. Aquí puedes registrarlos manualmente.</p>
+        </div>
+        <button class="btn btn-dark" onclick="openPedidoModal()">+ Registrar pedido</button>
+      </div>
+      <div id="pedidosLoading" class="loading">
+        <div class="spinner"></div>
+        Cargando pedidos...
+      </div>
+      <table class="products-table" id="pedidosTable" style="display:none">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Producto</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="pedidosBody"></tbody>
+      </table>
+      <div class="empty-state" id="pedidosEmpty" style="display:none">
+        <div class="emoji">🛒</div>
+        <p>No hay pedidos registrados todavía.</p>
+      </div>
+    </div>
+
+    <!-- CONFIGURACION -->
+    <div id="section-configuracion" class="tab-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Configuración</h1>
+          <p class="page-sub">Ajustes generales de la tienda</p>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <h3>WhatsApp de contacto</h3>
+        <p>Número al que llegan los pedidos de la tienda</p>
+        <div style="display:flex;gap:0.8rem;align-items:flex-end">
+          <div class="form-field" style="flex:1;margin-bottom:0">
+            <label>Número (con código de país, sin +)</label>
+            <input type="text" id="configWA" placeholder="18296744989"/>
+          </div>
+          <button class="btn btn-dark" onclick="saveConfig()">Guardar</button>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <h3>Mensaje de envío gratis</h3>
+        <p>Texto que aparece en la barra superior de la tienda</p>
+        <div style="display:flex;gap:0.8rem;align-items:flex-end">
+          <div class="form-field" style="flex:1;margin-bottom:0">
+            <input type="text" id="configBanner" placeholder="Envío gratis en compras sobre RD$5,000"/>
+          </div>
+          <button class="btn btn-dark" onclick="saveConfig()">Guardar</button>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <h3>Estado de la tienda</h3>
+        <p>Activa o desactiva la tienda para mantenimiento</p>
+        <div class="toggle-field">
+          <div>
+            <div class="toggle-label">Tienda pública</div>
+            <div class="toggle-sub">Los clientes pueden ver y comprar</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="configActiva" checked onchange="saveConfig()"/>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="toggle-field">
+          <div>
+            <div class="toggle-label">Envío gratis activo</div>
+            <div class="toggle-sub">Mostrar banner de envío gratis</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="configEnvio" checked onchange="saveConfig()"/>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <h3>Cambiar contraseña</h3>
+        <p>Actualiza la contraseña de acceso al panel</p>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Nueva contraseña</label>
+            <input type="password" id="newPass" placeholder="••••••••"/>
+          </div>
+          <div class="form-field">
+            <label>Confirmar contraseña</label>
+            <input type="password" id="confirmPass" placeholder="••••••••"/>
+          </div>
+        </div>
+        <button class="btn btn-dark" onclick="changePassword()">Actualizar contraseña</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="productModalTitle">Agregar producto</h3>
+      <button class="close-btn" onclick="closeProductModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field full">
+          <label>Nombre del producto *</label>
+          <input type="text" id="pNombre" placeholder="Ej: Cuadro Bad Bunny"/>
+        </div>
+        <div class="form-field">
+          <label>Categoría *</label>
+          <select id="pCategoria">
+            <option value="">Seleccionar...</option>
+            <option value="abrigo">🧥 Abrigo</option>
+            <option value="tshirt">👕 T-Shirt</option>
+            <option value="cuadro">🖼️ Cuadro</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Precio (RD$) *</label>
+          <input type="number" id="pPrecio" placeholder="3500"/>
+        </div>
+        <div class="form-field">
+          <label>Precio anterior (opcional)</label>
+          <input type="number" id="pPrecioOld" placeholder="4500"/>
+        </div>
+        <div class="form-field">
+          <label>Badge</label>
+          <select id="pBadge">
+            <option value="">Ninguno</option>
+            <option value="Nuevo">Nuevo</option>
+            <option value="Hot">Hot</option>
+            <option value="Oferta">Oferta</option>
+          </select>
+        </div>
+        <div class="form-field full">
+          <label>Descripción</label>
+          <textarea id="pDesc" placeholder="Describe el producto..."></textarea>
+        </div>
+        <div class="form-field full">
+          <label>Tallas disponibles (separadas por coma)</label>
+          <input type="text" id="pTallas" placeholder="S, M, L, XL, XXL"/>
+        </div>
+        <div class="form-field full">
+          <div class="toggle-field" style="padding:0">
+            <div>
+              <div class="toggle-label">Producto disponible</div>
+              <div class="toggle-sub">Visible y disponible para compra</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="pActivo" checked/>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeProductModal()">Cancelar</button>
+      <button class="btn btn-dark" onclick="saveProduct()">Guardar producto</button>
+    </div>
+  </div>
+</div>
+
+<!-- PEDIDO MODAL -->
+<div class="modal-overlay" id="pedidoModalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Registrar pedido</h3>
+      <button class="close-btn" onclick="closePedidoModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Nombre del cliente *</label>
+          <input type="text" id="ordCliente" placeholder="María González"/>
+        </div>
+        <div class="form-field">
+          <label>Teléfono</label>
+          <input type="text" id="ordTel" placeholder="8091234567"/>
+        </div>
+        <div class="form-field full">
+          <label>Producto(s)</label>
+          <input type="text" id="ordProducto" placeholder="Cuadro Bad Bunny x1, T-Shirt Anuel x2"/>
+        </div>
+        <div class="form-field">
+          <label>Total (RD$)</label>
+          <input type="number" id="ordTotal" placeholder="4700"/>
+        </div>
+        <div class="form-field">
+          <label>Estado</label>
+          <select id="ordEstado">
+            <option value="pendiente">Pendiente</option>
+            <option value="confirmado">Confirmado</option>
+            <option value="enviado">Enviado</option>
+            <option value="entregado">Entregado</option>
+          </select>
+        </div>
+        <div class="form-field full">
+          <label>Dirección de entrega</label>
+          <input type="text" id="ordDireccion" placeholder="Calle, sector, ciudad"/>
+        </div>
+        <div class="form-field full">
+          <label>Notas</label>
+          <textarea id="ordNotas" placeholder="Notas adicionales..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closePedidoModal()">Cancelar</button>
+      <button class="btn btn-dark" onclick="savePedido()">Guardar pedido</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, getDocs, getDoc, setDoc, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+// ── FIREBASE CONFIG ── (reemplazar con tu config)
+const firebaseConfig = {
+  apiKey: "AIzaSyC0xN0Haa88gPhAJ6WNfZqmiMfqHkjN-4M",
+  authDomain: "tiendaweb1-8e981.firebaseapp.com",
+  projectId: "tiendaweb1-8e981",
+  storageBucket: "tiendaweb1-8e981.firebasestorage.app",
+  messagingSenderId: "898997882250",
+  appId: "1:898997882250:web:597fc9155e8d322032cc73"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// ── ESTADO ──
+let allProducts = [];
+let allPedidos = [];
+let editingProductId = null;
+let editingPedidoId = null;
+let currentCategory = 'todos';
+
+// ── AUTH ──
+onAuthStateChanged(auth, user => {
+  if (user) {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('adminPage').style.display = 'block';
+    loadAll();
+  } else {
+    document.getElementById('loginPage').style.display = 'flex';
+    document.getElementById('adminPage').style.display = 'none';
+  }
+});
+
+window.doLogin = async () => {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  const errEl = document.getElementById('loginError');
+  errEl.style.display = 'none';
+  if (!email || !pass) { errEl.style.display = 'block'; errEl.textContent = 'Completa todos los campos.'; return; }
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch(e) {
+    errEl.style.display = 'block';
+    errEl.textContent = 'Email o contraseña incorrectos.';
+  }
+};
+
+window.doLogout = async () => {
+  await signOut(auth);
+};
+
+// ── LOAD ALL ──
+async function loadAll() {
+  loadProducts();
+  loadPedidos();
+  loadConfig();
+}
+
+// ── PRODUCTS ──
+async function loadProducts() {
+  document.getElementById('productsLoading').style.display = 'block';
+  document.getElementById('productsTable').style.display = 'none';
+  document.getElementById('productsEmpty').style.display = 'none';
+  try {
+    const snap = await getDocs(collection(db, 'productos'));
+    allProducts = [];
+    snap.forEach(d => allProducts.push({id: d.id, ...d.data()}));
+    renderProducts();
+    document.getElementById('statProductos').textContent = allProducts.filter(p=>p.activo).length;
+  } catch(e) {
+    showToast('Error cargando productos', 'error');
+  }
+  document.getElementById('productsLoading').style.display = 'none';
+}
+
+function renderProducts(filter='') {
+  const body = document.getElementById('productsBody');
+  body.innerHTML = '';
+  let list = allProducts.filter(p => {
+    const matchCat = currentCategory === 'todos' || p.categoria === currentCategory;
+    const matchSearch = !filter || p.nombre.toLowerCase().includes(filter.toLowerCase());
+    return matchCat && matchSearch;
+  });
+  if (list.length === 0) {
+    document.getElementById('productsTable').style.display = 'none';
+    document.getElementById('productsEmpty').style.display = 'block';
+    document.getElementById('productCount').textContent = '0 productos';
+    return;
+  }
+  document.getElementById('productsTable').style.display = 'table';
+  document.getElementById('productsEmpty').style.display = 'none';
+  document.getElementById('productCount').textContent = `${list.length} producto${list.length!==1?'s':''}`;
+  const emojis = {abrigo:'🧥',tshirt:'👕',cuadro:'🖼️'};
+  const catNames = {abrigo:'Abrigo',tshirt:'T-Shirt',cuadro:'Cuadro'};
+  list.forEach(p => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><div class="product-info-cell"><span class="product-emoji">${emojis[p.categoria]||'📦'}</span><div><div class="product-name-cell">${p.nombre}</div>${p.badge?`<span class="status-badge" style="background:#fff3cd;color:#856404">${p.badge}</span>`:''}</div></div></td>
+      <td><span class="product-cat">${catNames[p.categoria]||p.categoria}</span></td>
+      <td><span class="price-cell">RD$${Number(p.precio).toLocaleString()}</span>${p.precioOld?`<br><span style="font-size:0.72rem;color:var(--gray-text);text-decoration:line-through">RD$${Number(p.precioOld).toLocaleString()}</span>`:''}</td>
+      <td><span class="status-badge ${p.activo?'status-active':'status-inactive'}">${p.activo?'Disponible':'No disponible'}</span></td>
+      <td><div class="actions-cell">
+        <button class="btn btn-outline btn-sm" onclick="editProduct('${p.id}')">✏ Editar</button>
+        <button class="btn btn-sm" style="background:${p.activo?'#fff3cd':'#e8f5e9'};color:${p.activo?'#856404':'#2e7d32'}" onclick="toggleProduct('${p.id}',${p.activo})">${p.activo?'Desactivar':'Activar'}</button>
+        <button class="btn btn-red btn-sm" onclick="deleteProduct('${p.id}')">✕</button>
+      </div></td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+window.filterCategory = (cat, el) => {
+  currentCategory = cat;
+  document.querySelectorAll('.tab-bar .tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts();
+};
+
+window.searchProducts = (val) => renderProducts(val);
+
+window.openProductModal = (id=null) => {
+  editingProductId = id;
+  document.getElementById('productModalTitle').textContent = id ? 'Editar producto' : 'Agregar producto';
+  if (id) {
+    const p = allProducts.find(x=>x.id===id);
+    if (p) {
+      document.getElementById('pNombre').value = p.nombre||'';
+      document.getElementById('pCategoria').value = p.categoria||'';
+      document.getElementById('pPrecio').value = p.precio||'';
+      document.getElementById('pPrecioOld').value = p.precioOld||'';
+      document.getElementById('pBadge').value = p.badge||'';
+      document.getElementById('pDesc').value = p.descripcion||'';
+      document.getElementById('pTallas').value = (p.tallas||[]).join(', ');
+      document.getElementById('pActivo').checked = p.activo!==false;
+    }
+  } else {
+    ['pNombre','pPrecio','pPrecioOld','pDesc','pTallas'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('pCategoria').value='';
+    document.getElementById('pBadge').value='';
+    document.getElementById('pActivo').checked=true;
+  }
+  document.getElementById('productModalOverlay').classList.add('open');
+};
+
+window.editProduct = (id) => openProductModal(id);
+
+window.closeProductModal = () => {
+  document.getElementById('productModalOverlay').classList.remove('open');
+  editingProductId = null;
+};
+
+window.saveProduct = async () => {
+  const nombre = document.getElementById('pNombre').value.trim();
+  const categoria = document.getElementById('pCategoria').value;
+  const precio = document.getElementById('pPrecio').value;
+  if (!nombre || !categoria || !precio) { showToast('Completa los campos obligatorios', 'error'); return; }
+  const data = {
+    nombre,
+    categoria,
+    precio: Number(precio),
+    precioOld: document.getElementById('pPrecioOld').value ? Number(document.getElementById('pPrecioOld').value) : null,
+    badge: document.getElementById('pBadge').value,
+    descripcion: document.getElementById('pDesc').value.trim(),
+    tallas: document.getElementById('pTallas').value.split(',').map(s=>s.trim()).filter(Boolean),
+    activo: document.getElementById('pActivo').checked,
+    updatedAt: new Date().toISOString()
+  };
+  try {
+    if (editingProductId) {
+      await updateDoc(doc(db,'productos',editingProductId), data);
+      showToast('Producto actualizado ✓', 'success');
+    } else {
+      data.createdAt = new Date().toISOString();
+      await addDoc(collection(db,'productos'), data);
+      showToast('Producto agregado ✓', 'success');
+    }
+    closeProductModal();
+    loadProducts();
+  } catch(e) {
+    showToast('Error guardando producto', 'error');
+  }
+};
+
+window.toggleProduct = async (id, activo) => {
+  try {
+    await updateDoc(doc(db,'productos',id), {activo: !activo});
+    showToast(`Producto ${!activo?'activado':'desactivado'} ✓`, 'success');
+    loadProducts();
+  } catch(e) {
+    showToast('Error actualizando producto', 'error');
+  }
+};
+
+window.deleteProduct = async (id) => {
+  if (!confirm('¿Eliminar este producto? Esta acción no se puede deshacer.')) return;
+  try {
+    await deleteDoc(doc(db,'productos',id));
+    showToast('Producto eliminado', 'success');
+    loadProducts();
+  } catch(e) {
+    showToast('Error eliminando producto', 'error');
+  }
+};
+
+// ── PEDIDOS ──
+async function loadPedidos() {
+  document.getElementById('pedidosLoading').style.display = 'block';
+  document.getElementById('pedidosTable').style.display = 'none';
+  document.getElementById('pedidosEmpty').style.display = 'none';
+  try {
+    const snap = await getDocs(collection(db,'pedidos'));
+    allPedidos = [];
+    snap.forEach(d => allPedidos.push({id:d.id,...d.data()}));
+    allPedidos.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+    renderPedidos();
+    document.getElementById('statPedidos').textContent = allPedidos.length;
+  } catch(e) {}
+  document.getElementById('pedidosLoading').style.display = 'none';
+}
+
+function renderPedidos() {
+  const body = document.getElementById('pedidosBody');
+  body.innerHTML = '';
+  if (allPedidos.length === 0) {
+    document.getElementById('pedidosTable').style.display = 'none';
+    document.getElementById('pedidosEmpty').style.display = 'block';
+    return;
+  }
+  document.getElementById('pedidosTable').style.display = 'table';
+  document.getElementById('pedidosEmpty').style.display = 'none';
+  const statusColors = {pendiente:'#fff3cd;color:#856404',confirmado:'#cce5ff;color:#004085',enviado:'#d4edda;color:#155724',entregado:'#e8f5e9;color:#1b5e20'};
+  allPedidos.forEach(p => {
+    const tr = document.createElement('tr');
+    const fecha = p.createdAt ? new Date(p.createdAt).toLocaleDateString('es-DO') : '—';
+    tr.innerHTML = `
+      <td><strong>${p.cliente||'—'}</strong><br><span style="font-size:0.72rem;color:var(--gray-text)">${p.telefono||''}</span></td>
+      <td style="font-size:0.82rem">${p.producto||'—'}</td>
+      <td><span class="price-cell">RD$${Number(p.total||0).toLocaleString()}</span></td>
+      <td><span class="status-badge" style="background:${(statusColors[p.estado]||'#eee;color:#333')}">${p.estado||'pendiente'}</span></td>
+      <td style="font-size:0.78rem;color:var(--gray-text)">${fecha}</td>
+      <td><div class="actions-cell">
+        <select class="btn btn-outline btn-sm" style="padding:0.35rem 0.5rem;cursor:pointer" onchange="updatePedidoEstado('${p.id}',this.value)">
+          <option value="pendiente" ${p.estado==='pendiente'?'selected':''}>Pendiente</option>
+          <option value="confirmado" ${p.estado==='confirmado'?'selected':''}>Confirmado</option>
+          <option value="enviado" ${p.estado==='enviado'?'selected':''}>Enviado</option>
+          <option value="entregado" ${p.estado==='entregado'?'selected':''}>Entregado</option>
+        </select>
+        <button class="btn btn-red btn-sm" onclick="deletePedido('${p.id}')">✕</button>
+      </div></td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+window.openPedidoModal = () => {
+  ['ordCliente','ordTel','ordProducto','ordTotal','ordDireccion','ordNotas'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('ordEstado').value='pendiente';
+  document.getElementById('pedidoModalOverlay').classList.add('open');
+};
+
+window.closePedidoModal = () => document.getElementById('pedidoModalOverlay').classList.remove('open');
+
+window.savePedido = async () => {
+  const cliente = document.getElementById('ordCliente').value.trim();
+  if (!cliente) { showToast('Ingresa el nombre del cliente', 'error'); return; }
+  const data = {
+    cliente,
+    telefono: document.getElementById('ordTel').value.trim(),
+    producto: document.getElementById('ordProducto').value.trim(),
+    total: Number(document.getElementById('ordTotal').value)||0,
+    estado: document.getElementById('ordEstado').value,
+    direccion: document.getElementById('ordDireccion').value.trim(),
+    notas: document.getElementById('ordNotas').value.trim(),
+    createdAt: new Date().toISOString()
+  };
+  try {
+    await addDoc(collection(db,'pedidos'), data);
+    showToast('Pedido registrado ✓', 'success');
+    closePedidoModal();
+    loadPedidos();
+  } catch(e) {
+    showToast('Error guardando pedido', 'error');
+  }
+};
+
+window.updatePedidoEstado = async (id, estado) => {
+  try {
+    await updateDoc(doc(db,'pedidos',id), {estado});
+    showToast('Estado actualizado ✓', 'success');
+    loadPedidos();
+  } catch(e) {}
+};
+
+window.deletePedido = async (id) => {
+  if (!confirm('¿Eliminar este pedido?')) return;
+  try {
+    await deleteDoc(doc(db,'pedidos',id));
+    showToast('Pedido eliminado', 'success');
+    loadPedidos();
+  } catch(e) {}
+};
+
+// ── CONFIG ──
+async function loadConfig() {
+  try {
+    const snap = await getDoc(doc(db,'config','tienda'));
+    if (snap.exists()) {
+      const d = snap.data();
+      document.getElementById('configWA').value = d.whatsapp||'';
+      document.getElementById('configBanner').value = d.banner||'';
+      document.getElementById('configActiva').checked = d.activa!==false;
+      document.getElementById('configEnvio').checked = d.envioGratis!==false;
+      document.getElementById('statWA').textContent = d.whatsapp||'No configurado';
+    }
+  } catch(e) {}
+}
+
+window.saveConfig = async () => {
+  const data = {
+    whatsapp: document.getElementById('configWA').value.trim(),
+    banner: document.getElementById('configBanner').value.trim(),
+    activa: document.getElementById('configActiva').checked,
+    envioGratis: document.getElementById('configEnvio').checked,
+    updatedAt: new Date().toISOString()
+  };
+  try {
+    await setDoc(doc(db,'config','tienda'), data, {merge:true});
+    showToast('Configuración guardada ✓', 'success');
+    document.getElementById('statWA').textContent = data.whatsapp||'No configurado';
+  } catch(e) {
+    showToast('Error guardando configuración', 'error');
+  }
+};
+
+window.changePassword = async () => {
+  const newPass = document.getElementById('newPass').value;
+  const confirmPass = document.getElementById('confirmPass').value;
+  if (!newPass || newPass.length < 6) { showToast('La contraseña debe tener al menos 6 caracteres', 'error'); return; }
+  if (newPass !== confirmPass) { showToast('Las contraseñas no coinciden', 'error'); return; }
+  try {
+    await updatePassword(auth.currentUser, newPass);
+    showToast('Contraseña actualizada ✓', 'success');
+    document.getElementById('newPass').value='';
+    document.getElementById('confirmPass').value='';
+  } catch(e) {
+    showToast('Error: vuelve a iniciar sesión e intenta de nuevo', 'error');
+  }
+};
+
+// ── UI ──
+window.showSection = (section, el) => {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('section-'+section).classList.add('active');
+  if (el) el.classList.add('active');
+};
+
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (type?' '+type:'');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+window.showToast = showToast;
+</script>
+</body>
+</html>
