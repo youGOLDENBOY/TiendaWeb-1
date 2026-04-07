@@ -216,7 +216,7 @@ body{font-family:var(--sans);background:var(--gray-bg);color:var(--black);min-he
       <label>Contraseña</label>
       <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
     </div>
-    <button class="login-btn" onclick="doLogin()">Entrar al panel</button>
+    <button class="login-btn" id="loginBtn">Entrar al panel</button>
     <div class="login-error" id="loginError"></div>
   </div>
 </div>
@@ -226,7 +226,7 @@ body{font-family:var(--sans);background:var(--gray-bg);color:var(--black);min-he
 
   <!-- MOBILE TOPBAR -->
   <div class="mobile-topbar">
-    <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
+    <button class="hamburger" id="hamburger">
       <span></span><span></span><span></span>
     </button>
     <div class="mobile-title">The<em>Vault</em> Studio</div>
@@ -555,17 +555,6 @@ let currentCategory = 'todos';
 let pendingImages = []; // base64 images to upload
 
 // ── AUTH ──
-onAuthStateChanged(auth, user => {
-  if (user) {
-    document.getElementById('loginPage').style.display = 'none';
-    document.getElementById('adminPage').style.display = 'block';
-    loadAll();
-  } else {
-    document.getElementById('loginPage').style.display = 'flex';
-    document.getElementById('adminPage').style.display = 'none';
-  }
-});
-
 window.doLogin = async () => {
   const email = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPass').value;
@@ -576,6 +565,17 @@ window.doLogin = async () => {
   catch(e) { errEl.style.display='block'; errEl.textContent='Email o contraseña incorrectos.'; }
 };
 window.doLogout = () => signOut(auth);
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('adminPage').style.display = 'block';
+    loadAll();
+  } else {
+    document.getElementById('loginPage').style.display = 'flex';
+    document.getElementById('adminPage').style.display = 'none';
+  }
+});
 
 // ── LOAD ALL ──
 async function loadAll() { loadProducts(); loadPedidos(); loadAnuncios(); loadConfig(); }
