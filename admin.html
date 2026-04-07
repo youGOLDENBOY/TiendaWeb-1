@@ -835,7 +835,7 @@ function renderAnuncios() {
   list.innerHTML='';
   if (allAnuncios.length===0) { document.getElementById('anunciosEmpty').style.display='block'; return; }
   const tipos={banner:'Banner superior',popup:'Popup',oferta:'Banner oferta'};
-  const colors={black:'#333',green:var(--green)||'#1DB954',red:'#e74c3c',blue:'#2980b9'};
+  const colors={black:'#333',green:'#1DB954',red:'#e74c3c',blue:'#2980b9'};
   allAnuncios.forEach(a=>{
     const div=document.createElement('div');
     div.className='anuncio-card';
