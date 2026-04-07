@@ -246,6 +246,8 @@ body{font-family:var(--sans);background:var(--gray-bg);color:var(--black);min-he
       <button class="nav-item" onclick="showSection('productos',this)"><span class="icon">📦</span>Productos</button>
       <button class="nav-item" onclick="showSection('pedidos',this)"><span class="icon">🛒</span>Pedidos</button>
       <button class="nav-item" onclick="showSection('anuncios',this)"><span class="icon">📢</span>Anuncios</button>
+      <button class="nav-item" onclick="showSection('reels',this)"><span class="icon">🎬</span>Reels / Videos</button>
+      <button class="nav-item" onclick="showSection('categorias',this)"><span class="icon">🗂️</span>Categorías</button>
       <span class="nav-label">Ajustes</span>
       <button class="nav-item" onclick="showSection('configuracion',this)"><span class="icon">⚙️</span>Configuración</button>
     </nav>
@@ -334,6 +336,28 @@ body{font-family:var(--sans);background:var(--gray-bg);color:var(--black);min-he
       <div id="anunciosLoading" class="loading"><div class="spinner"></div>Cargando...</div>
       <div id="anunciosList"></div>
       <div class="empty-state" id="anunciosEmpty" style="display:none"><div class="emoji">📢</div><p>No hay anuncios activos.</p></div>
+    </div>
+
+    <!-- REELS -->
+    <div id="section-reels" class="tab-content">
+      <div class="page-header">
+        <div><h1 class="page-title">Reels / Videos</h1><p class="page-sub">Videos cortos que aparecen en la sección de la tienda</p></div>
+        <button class="btn btn-dark" onclick="openReelModal()">+ Agregar video</button>
+      </div>
+      <div id="reelsLoading" class="loading"><div class="spinner"></div>Cargando...</div>
+      <div id="reelsList"></div>
+      <div class="empty-state" id="reelsEmpty" style="display:none"><div class="emoji">🎬</div><p>No hay videos todavía. Agrega el primero.</p></div>
+    </div>
+
+    <!-- CATEGORIAS -->
+    <div id="section-categorias" class="tab-content">
+      <div class="page-header">
+        <div><h1 class="page-title">Categorías</h1><p class="page-sub">Gestiona las categorías que aparecen en la tienda</p></div>
+        <button class="btn btn-dark" onclick="openCatModal()">+ Nueva categoría</button>
+      </div>
+      <div id="catsLoading" class="loading"><div class="spinner"></div>Cargando...</div>
+      <div id="catsList"></div>
+      <div class="empty-state" id="catsEmpty" style="display:none"><div class="emoji">🗂️</div><p>No hay categorías personalizadas. Se usan las del HTML por defecto.</p></div>
     </div>
 
     <!-- CONFIGURACION -->
@@ -526,6 +550,61 @@ body{font-family:var(--sans);background:var(--gray-bg);color:var(--black);min-he
   </div>
 </div>
 
+<!-- REEL MODAL -->
+<div class="modal-overlay" id="reelModalOverlay">
+  <div class="modal">
+    <div class="modal-header"><h3 id="reelModalTitle">Agregar video</h3><button class="close-btn" onclick="closeReelModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field"><label>Título *</label><input type="text" id="rTitulo" placeholder="Abrigo Urban Classic"/></div>
+        <div class="form-field"><label>Subtítulo</label><input type="text" id="rSubtitulo" placeholder="Nueva colección 2026"/></div>
+        <div class="form-field full">
+          <label>URL del video (YouTube, Vimeo, o enlace directo .mp4)</label>
+          <input type="text" id="rVideoUrl" placeholder="https://..."/>
+          <p style="font-size:0.7rem;color:var(--gray-text);margin-top:0.4rem">Para videos de YouTube usa el enlace directo del video. Para .mp4 sube el archivo a Cloudinary y pega la URL.</p>
+        </div>
+        <div class="form-field full">
+          <div class="toggle-field" style="padding:0.5rem 0">
+            <div><div class="toggle-label">Video activo</div><div class="toggle-sub">Visible en la tienda</div></div>
+            <label class="toggle"><input type="checkbox" id="rActivo" checked/><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeReelModal()">Cancelar</button>
+      <button class="btn btn-dark" onclick="saveReel()">Guardar video</button>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORIA MODAL -->
+<div class="modal-overlay" id="catModalOverlay">
+  <div class="modal">
+    <div class="modal-header"><h3 id="catModalTitle">Nueva categoría</h3><button class="close-btn" onclick="closeCatModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-field"><label>ID (sin espacios) *</label><input type="text" id="cId" placeholder="abrigos"/></div>
+        <div class="form-field"><label>Nombre *</label><input type="text" id="cNombre" placeholder="Abrigos"/></div>
+        <div class="form-field"><label>Ícono (emoji)</label><input type="text" id="cIcono" placeholder="🧥"/></div>
+        <div class="form-field"><label>Cantidad (texto)</label><input type="text" id="cCantidad" placeholder="24 estilos disponibles"/></div>
+        <div class="form-field full"><label>Descripción</label><textarea id="cDesc" placeholder="Descripción de la categoría..."></textarea></div>
+        <div class="form-field"><label>Orden</label><input type="number" id="cOrden" placeholder="1"/></div>
+        <div class="form-field full">
+          <div class="toggle-field" style="padding:0.5rem 0">
+            <div><div class="toggle-label">Categoría activa</div><div class="toggle-sub">Visible en la tienda</div></div>
+            <label class="toggle"><input type="checkbox" id="cActiva" checked/><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeCatModal()">Cancelar</button>
+      <button class="btn btn-dark" onclick="saveCat()">Guardar categoría</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script type="module">
@@ -578,7 +657,7 @@ onAuthStateChanged(auth, user => {
 });
 
 // ── LOAD ALL ──
-async function loadAll() { loadProducts(); loadPedidos(); loadAnuncios(); loadConfig(); }
+async function loadAll() { loadProducts(); loadPedidos(); loadAnuncios(); loadConfig(); loadReels(); loadCats(); }
 
 // ── PRODUCTS ──
 async function loadProducts() {
@@ -917,6 +996,141 @@ window.changePassword = async () => {
   if (newPass!==confirmPass) { showToast('Las contraseñas no coinciden','error'); return; }
   try { await updatePassword(auth.currentUser,newPass); showToast('Contraseña actualizada ✓','success'); document.getElementById('newPass').value=''; document.getElementById('confirmPass').value=''; }
   catch(e) { showToast('Vuelve a iniciar sesión e intenta de nuevo','error'); }
+};
+
+// ── REELS ──
+let allReels = [], editingReelId = null;
+
+async function loadReels() {
+  document.getElementById('reelsLoading').style.display='block';
+  document.getElementById('reelsList').innerHTML='';
+  document.getElementById('reelsEmpty').style.display='none';
+  try {
+    const snap = await getDocs(collection(db,'reels'));
+    allReels=[];
+    snap.forEach(d=>allReels.push({id:d.id,...d.data()}));
+    renderReels();
+  } catch(e) {}
+  document.getElementById('reelsLoading').style.display='none';
+}
+
+function renderReels() {
+  const list=document.getElementById('reelsList');
+  list.innerHTML='';
+  if (allReels.length===0) { document.getElementById('reelsEmpty').style.display='block'; return; }
+  allReels.forEach(r=>{
+    const div=document.createElement('div');
+    div.className='anuncio-card';
+    div.innerHTML=`
+      <div class="anuncio-text">
+        <h4>${r.titulo||'Sin título'}</h4>
+        <p>${r.subtitulo||''} · ${r.activo!==false?'<span style="color:var(--green)">Activo</span>':'<span style="color:var(--red)">Inactivo</span>'}</p>
+        ${r.videoUrl?`<p style="font-size:0.7rem;color:var(--gray-text);margin-top:0.2rem;word-break:break-all">${r.videoUrl.substring(0,60)}...</p>`:''}
+      </div>
+      <div class="anuncio-actions">
+        <button class="btn btn-outline btn-sm" onclick="editReel('${r.id}')">✏ Editar</button>
+        <button class="btn btn-sm" style="background:${r.activo!==false?'#fff3cd':'#e8f5e9'};color:${r.activo!==false?'#856404':'#2e7d32'}" onclick="toggleReel('${r.id}',${r.activo!==false})">${r.activo!==false?'Desactivar':'Activar'}</button>
+        <button class="btn btn-red btn-sm" onclick="deleteReel('${r.id}')">✕</button>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+window.openReelModal = (id=null) => {
+  editingReelId=id;
+  document.getElementById('reelModalTitle').textContent=id?'Editar video':'Agregar video';
+  if (id) { const r=allReels.find(x=>x.id===id); if(r){document.getElementById('rTitulo').value=r.titulo||'';document.getElementById('rSubtitulo').value=r.subtitulo||'';document.getElementById('rVideoUrl').value=r.videoUrl||'';document.getElementById('rActivo').checked=r.activo!==false;} }
+  else { ['rTitulo','rSubtitulo','rVideoUrl'].forEach(i=>document.getElementById(i).value=''); document.getElementById('rActivo').checked=true; }
+  document.getElementById('reelModalOverlay').classList.add('open');
+};
+window.editReel = id => openReelModal(id);
+window.closeReelModal = () => { document.getElementById('reelModalOverlay').classList.remove('open'); editingReelId=null; };
+
+window.saveReel = async () => {
+  const titulo=document.getElementById('rTitulo').value.trim();
+  if (!titulo) { showToast('Escribe un título','error'); return; }
+  const data={titulo,subtitulo:document.getElementById('rSubtitulo').value.trim(),videoUrl:document.getElementById('rVideoUrl').value.trim(),activo:document.getElementById('rActivo').checked,updatedAt:new Date().toISOString()};
+  try {
+    if (editingReelId) { await updateDoc(doc(db,'reels',editingReelId),data); showToast('Video actualizado ✓','success'); }
+    else { data.createdAt=new Date().toISOString(); await addDoc(collection(db,'reels'),data); showToast('Video agregado ✓','success'); }
+    closeReelModal(); loadReels();
+  } catch(e) { showToast('Error guardando','error'); }
+};
+
+window.toggleReel = async (id,activo) => {
+  try { await updateDoc(doc(db,'reels',id),{activo:!activo}); showToast(`Video ${!activo?'activado':'desactivado'}`,'success'); loadReels(); } catch(e) {}
+};
+window.deleteReel = async (id) => {
+  if (!confirm('¿Eliminar este video?')) return;
+  try { await deleteDoc(doc(db,'reels',id)); showToast('Video eliminado','success'); loadReels(); } catch(e) {}
+};
+
+// ── CATEGORIAS ──
+let allCats = [], editingCatId = null;
+
+async function loadCats() {
+  document.getElementById('catsLoading').style.display='block';
+  document.getElementById('catsList').innerHTML='';
+  document.getElementById('catsEmpty').style.display='none';
+  try {
+    const snap = await getDocs(collection(db,'categorias'));
+    allCats=[];
+    snap.forEach(d=>allCats.push({id:d.id,...d.data()}));
+    allCats.sort((a,b)=>(a.orden||0)-(b.orden||0));
+    renderCats();
+  } catch(e) {}
+  document.getElementById('catsLoading').style.display='none';
+}
+
+function renderCats() {
+  const list=document.getElementById('catsList');
+  list.innerHTML='';
+  if (allCats.length===0) { document.getElementById('catsEmpty').style.display='block'; return; }
+  allCats.forEach(c=>{
+    const div=document.createElement('div');
+    div.className='anuncio-card';
+    div.innerHTML=`
+      <div class="anuncio-text">
+        <h4>${c.icono||'📦'} ${c.nombre||'Sin nombre'}</h4>
+        <p>ID: ${c.id} · Orden: ${c.orden||0} · ${c.activa!==false?'<span style="color:var(--green)">Activa</span>':'<span style="color:var(--red)">Inactiva</span>'}</p>
+        ${c.descripcion?`<p style="font-size:0.72rem;color:var(--gray-text);margin-top:0.2rem">${c.descripcion}</p>`:''}
+      </div>
+      <div class="anuncio-actions">
+        <button class="btn btn-outline btn-sm" onclick="editCat('${c.id}')">✏ Editar</button>
+        <button class="btn btn-sm" style="background:${c.activa!==false?'#fff3cd':'#e8f5e9'};color:${c.activa!==false?'#856404':'#2e7d32'}" onclick="toggleCat('${c.id}',${c.activa!==false})">${c.activa!==false?'Desactivar':'Activar'}</button>
+        <button class="btn btn-red btn-sm" onclick="deleteCat('${c.id}')">✕</button>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+window.openCatModal = (id=null) => {
+  editingCatId=id;
+  document.getElementById('catModalTitle').textContent=id?'Editar categoría':'Nueva categoría';
+  if (id) { const c=allCats.find(x=>x.id===id); if(c){document.getElementById('cId').value=c.id;document.getElementById('cId').disabled=true;document.getElementById('cNombre').value=c.nombre||'';document.getElementById('cIcono').value=c.icono||'';document.getElementById('cCantidad').value=c.cantidad||'';document.getElementById('cDesc').value=c.descripcion||'';document.getElementById('cOrden').value=c.orden||1;document.getElementById('cActiva').checked=c.activa!==false;} }
+  else { ['cId','cNombre','cIcono','cCantidad','cDesc','cOrden'].forEach(i=>document.getElementById(i).value=''); document.getElementById('cId').disabled=false; document.getElementById('cActiva').checked=true; }
+  document.getElementById('catModalOverlay').classList.add('open');
+};
+window.editCat = id => openCatModal(id);
+window.closeCatModal = () => { document.getElementById('catModalOverlay').classList.remove('open'); editingCatId=null; };
+
+window.saveCat = async () => {
+  const id=document.getElementById('cId').value.trim().replace(/\s+/g,'').toLowerCase();
+  const nombre=document.getElementById('cNombre').value.trim();
+  if (!id||!nombre) { showToast('ID y nombre son obligatorios','error'); return; }
+  const data={nombre,icono:document.getElementById('cIcono').value.trim(),cantidad:document.getElementById('cCantidad').value.trim(),descripcion:document.getElementById('cDesc').value.trim(),orden:Number(document.getElementById('cOrden').value)||1,activa:document.getElementById('cActiva').checked,updatedAt:new Date().toISOString()};
+  try {
+    await setDoc(doc(db,'categorias',id),data,{merge:true});
+    showToast(editingCatId?'Categoría actualizada ✓':'Categoría creada ✓','success');
+    closeCatModal(); loadCats();
+  } catch(e) { showToast('Error guardando','error'); }
+};
+window.toggleCat = async (id,activa) => {
+  try { await updateDoc(doc(db,'categorias',id),{activa:!activa}); showToast(`Categoría ${!activa?'activada':'desactivada'}`,'success'); loadCats(); } catch(e) {}
+};
+window.deleteCat = async (id) => {
+  if (!confirm('¿Eliminar esta categoría?')) return;
+  try { await deleteDoc(doc(db,'categorias',id)); showToast('Categoría eliminada','success'); loadCats(); } catch(e) {}
 };
 
 // ── UI ──

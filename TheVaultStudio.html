@@ -247,12 +247,167 @@ footer{background:var(--black);color:var(--white);padding:4rem 4rem 2rem}
 .size-opt{padding:0.45rem 0.9rem;border:1px solid var(--gray-mid);font-size:0.78rem;cursor:pointer;transition:all 0.2s;background:none;font-family:var(--sans)}
 .size-opt:hover,.size-opt.active{background:var(--black);color:var(--white);border-color:var(--black)}
 .modal-close{position:absolute;top:1rem;right:1rem;background:var(--white);border:none;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;z-index:1;border-radius:50%}
+
+/* ── MOBILE MENU ── */
+.menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:0.4rem;flex-direction:column;gap:5px}
+.menu-toggle span{display:block;width:22px;height:2px;background:var(--black);transition:all 0.3s}
+.menu-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.menu-toggle.open span:nth-child(2){opacity:0}
+.menu-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;inset:0;background:var(--white);z-index:190;flex-direction:column;justify-content:center;align-items:center;gap:2rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:var(--serif);font-size:2rem;font-weight:700;text-decoration:none;color:var(--black);letter-spacing:0.02em}
+.mobile-menu-cart{margin-top:1rem}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  /* NAV */
+  nav{padding:1rem 1.2rem}
+  .nav-links{display:none}
+  .menu-toggle{display:flex}
+  .cart-trigger span.cart-label{display:none}
+
+  /* HERO */
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-left{padding:3rem 1.5rem 2rem}
+  .hero-title{font-size:2.6rem}
+  .hero-right{display:none}
+  .hero-stats{gap:1.5rem;flex-wrap:wrap}
+  .hero-ctas{flex-direction:column;align-items:flex-start}
+  .btn{width:100%;justify-content:center}
+
+  /* INFO STRIP */
+  .info-strip{grid-template-columns:1fr 1fr}
+  .info-item{padding:1.2rem;border-right:none;border-bottom:1px solid var(--gray-mid)}
+  .info-item:nth-child(odd){border-right:1px solid var(--gray-mid)}
+  .info-item:nth-child(3),.info-item:nth-child(4){border-bottom:none}
+
+  /* CATS */
+  .cats{grid-template-columns:1fr}
+  .cat{padding:2rem 1.5rem}
+
+  /* SECTION */
+  .section{padding:3rem 1.2rem}
+  .section-sm{padding:2rem 1.2rem 0}
+  .section-title{font-size:2rem}
+
+  /* PRODUCTS */
+  .products-grid{grid-template-columns:1fr 1fr;gap:1rem}
+  .product-img{height:200px}
+  .product-actions{opacity:1}
+  .add-cart-btn{font-size:0.65rem;padding:0.6rem}
+
+  /* CUADROS */
+  .poster{min-height:220px}
+  .artist-ph{height:100px}
+  .artist-nm{font-size:1.3rem}
+
+  /* CUSTOM BANNER */
+  .custom-banner{grid-template-columns:1fr;padding:3rem 1.5rem;gap:2rem}
+  .custom-banner h2{font-size:2rem}
+
+  /* TESTIMONIALS */
+  .testimonials{padding:3rem 1.2rem}
+  .test-grid{grid-template-columns:1fr}
+
+  /* NEWSLETTER */
+  .newsletter{padding:3rem 1.2rem}
+  .email-form{flex-direction:column}
+  .email-form input{border-right:1.5px solid var(--black);border-bottom:none;width:100%}
+  .email-form button{padding:1rem;width:100%}
+
+  /* FOOTER */
+  footer{padding:2.5rem 1.2rem 1.5rem}
+  .footer-top{grid-template-columns:1fr 1fr;gap:2rem}
+  .footer-brand{grid-column:1/-1}
+  .footer-bottom{flex-direction:column;gap:1rem;text-align:center}
+
+  /* CART */
+  .cart-sidebar{width:100%;max-width:100%}
+
+  /* MODAL */
+  .modal{grid-template-columns:1fr;max-height:95vh}
+  .modal-img{min-height:200px}
+  .modal-overlay{padding:0.5rem}
+
+  /* SCROLL/WA FLOAT */
+  .scroll-top{bottom:5.5rem;left:1rem;width:38px;height:38px;font-size:0.9rem}
+  .wa-float{bottom:1.5rem;right:1.2rem;width:50px;height:50px}
+}
+
+/* ── ANUNCIOS DINAMICOS ── */
+.anuncio-bar{display:none;width:100%;text-align:center;padding:0.7rem 1rem;font-size:0.78rem;font-weight:500;letter-spacing:0.06em;position:relative;z-index:150}
+.anuncio-bar.black{background:var(--black);color:var(--white)}
+.anuncio-bar.green{background:#1DB954;color:#000}
+.anuncio-bar.red{background:#e74c3c;color:#fff}
+.anuncio-bar.blue{background:#2980b9;color:#fff}
+.anuncio-bar .close-anuncio{position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:none;border:none;color:inherit;cursor:pointer;opacity:0.6;font-size:1rem}
+.anuncio-popup{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:800;display:none;align-items:center;justify-content:center;padding:1.5rem}
+.anuncio-popup.show{display:flex}
+.anuncio-popup-box{background:var(--white);max-width:440px;width:100%;padding:2.5rem;text-align:center;position:relative}
+.anuncio-popup-box h2{font-family:var(--serif);font-size:1.8rem;margin-bottom:0.8rem}
+.anuncio-popup-box p{font-size:0.88rem;color:var(--gray-text);margin-bottom:1.5rem}
+.anuncio-popup-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--gray-text)}
+
+/* ── REELS ── */
+.reels-section{padding:4rem 0;background:var(--black);overflow:hidden}
+.reels-header{padding:0 4rem;margin-bottom:2rem;display:flex;justify-content:space-between;align-items:center}
+.reels-header h2{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--white)}
+.reels-header p{font-size:0.82rem;color:rgba(255,255,255,0.5)}
+.reels-track{display:flex;gap:1rem;padding:0 4rem;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;scroll-snap-type:x mandatory}
+.reels-track::-webkit-scrollbar{display:none}
+.reel-item{flex-shrink:0;width:180px;position:relative;cursor:pointer;scroll-snap-align:start}
+.reel-video{width:180px;height:320px;object-fit:cover;border-radius:8px;background:#1a1a1a;display:block}
+.reel-placeholder{width:180px;height:320px;border-radius:8px;background:#1a1a1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;border:1px solid rgba(255,255,255,0.1)}
+.reel-placeholder span{font-size:2rem}
+.reel-placeholder p{font-size:0.7rem;color:rgba(255,255,255,0.4);text-align:center;letter-spacing:0.05em;text-transform:uppercase}
+.reel-overlay{position:absolute;inset:0;border-radius:8px;background:linear-gradient(transparent 50%,rgba(0,0,0,0.8));display:flex;flex-direction:column;justify-content:flex-end;padding:0.8rem}
+.reel-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.reel-item:hover .reel-play{background:var(--white);transform:translate(-50%,-50%) scale(1.1)}
+.reel-play::after{content:'';border-left:16px solid var(--black);border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:3px}
+.reel-label{color:var(--white);font-size:0.75rem;font-weight:500;margin-bottom:0.2rem}
+.reel-sub{color:rgba(255,255,255,0.6);font-size:0.65rem}
+.reel-modal{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:700;display:none;align-items:center;justify-content:center}
+.reel-modal.open{display:flex}
+.reel-modal-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--white);font-size:1.8rem;cursor:pointer;z-index:1}
+.reel-modal video{max-height:90vh;max-width:400px;width:100%;border-radius:8px}
+
+/* ── CATEGORIAS DINAMICAS ── */
+.cats-dynamic{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gray-mid)}
+
+@media(max-width:768px){
+  .reels-header{padding:0 1.2rem}
+  .reels-track{padding:0 1.2rem}
+  .reel-item{width:150px}
+  .reel-video,.reel-placeholder{width:150px;height:265px}
+}
 </style>
 </head>
 <body>
 
 <!-- ANNOUNCEMENT BAR -->
-<div class="topbar">🚚 Envío gratis en compras sobre <span>RD$5,000</span> — Toda República Dominicana</div>
+<div class="topbar" id="topbarDefault">🚚 Envío gratis en compras sobre <span>RD$5,000</span> — Toda República Dominicana</div>
+<div id="anunciosBarContainer"></div>
+
+<!-- ANUNCIO POPUP -->
+<div class="anuncio-popup" id="anuncioPopup">
+  <div class="anuncio-popup-box">
+    <button class="anuncio-popup-close" onclick="document.getElementById('anuncioPopup').classList.remove('show')">✕</button>
+    <h2 id="popupTitle"></h2>
+    <p id="popupSub"></p>
+    <button class="btn btn-dark" onclick="document.getElementById('anuncioPopup').classList.remove('show')">Entendido</button>
+  </div>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#abrigos" onclick="closeMobileMenu()">Abrigos</a>
+  <a href="#tshirts" onclick="closeMobileMenu()">T-Shirts</a>
+  <a href="#cuadros" onclick="closeMobileMenu()">Cuadros</a>
+  <a href="#personalizar" onclick="closeMobileMenu()">Personalizar</a>
+  <a href="#contacto" onclick="closeMobileMenu()">Contacto</a>
+  <button class="btn btn-dark mobile-menu-cart" onclick="closeMobileMenu();toggleCart()">🛒 Ver carrito</button>
+</div>
 
 <!-- NAV -->
 <nav id="mainNav">
@@ -266,8 +421,11 @@ footer{background:var(--black);color:var(--white);padding:4rem 4rem 2rem}
   </ul>
   <div class="nav-right">
     <button class="cart-trigger" onclick="toggleCart()">
-      🛒 Carrito
+      🛒 <span class="cart-label">Carrito</span>
       <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <button class="menu-toggle" id="menuToggle" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
@@ -364,6 +522,37 @@ footer{background:var(--black);color:var(--white);padding:4rem 4rem 2rem}
     <h2 class="section-title">Tres categorías, un estilo</h2>
   </div>
 </section>
+
+<!-- REELS -->
+<section class="reels-section" id="reels">
+  <div class="reels-header">
+    <div>
+      <h2>Míralo en acción</h2>
+      <p>Videos de nuestros productos</p>
+    </div>
+  </div>
+  <div class="reels-track" id="reelsTrack">
+    <!-- Se cargan desde Firebase o se muestran placeholders -->
+    <div class="reel-item">
+      <div class="reel-placeholder"><span>🎬</span><p>Video próximamente</p></div>
+    </div>
+    <div class="reel-item">
+      <div class="reel-placeholder"><span>🎬</span><p>Video próximamente</p></div>
+    </div>
+    <div class="reel-item">
+      <div class="reel-placeholder"><span>🎬</span><p>Video próximamente</p></div>
+    </div>
+    <div class="reel-item">
+      <div class="reel-placeholder"><span>🎬</span><p>Video próximamente</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- REEL MODAL -->
+<div class="reel-modal" id="reelModal">
+  <button class="reel-modal-close" onclick="closeReel()">✕</button>
+  <video id="reelVideo" controls autoplay playsinline></video>
+</div>
 <div class="cats">
   <div class="cat" onclick="document.getElementById('abrigos').scrollIntoView({behavior:'smooth'})">
     <span class="cat-icon">🧥</span>
@@ -394,7 +583,7 @@ footer{background:var(--black);color:var(--white);padding:4rem 4rem 2rem}
     <span class="eyebrow">Colección Otoño–Invierno</span>
     <h2 class="section-title">Abrigos</h2>
   </div>
-  <div class="products-grid">
+  <div class="products-grid" id="abrigos-grid">
     <div class="product-card" onclick="openModal('Abrigo Urban Classic','Colección Otoño','RD$4,800','Abrigo oversize de alta calidad, ideal para el frío. Disponible en negro, camel y gris. Tela exterior impermeable.',['S','M','L','XL'],'🧥','p-dark')">
       <div class="product-img-wrap">
         <div class="product-img" style="background:#e8e4dc">
@@ -463,7 +652,7 @@ footer{background:var(--black);color:var(--white);padding:4rem 4rem 2rem}
     <span class="eyebrow">Diseños exclusivos</span>
     <h2 class="section-title">T-Shirts Personalizados</h2>
   </div>
-  <div class="products-grid">
+  <div class="products-grid" id="tshirts-grid">
     <div class="product-card" onclick="openModal('T-Shirt Bad Bunny','Artistas — Bad Bunny','RD$1,200','100% algodón peinado 180g. Serigrafía de alta definición. Lavable a máquina. Disponible en blanco y negro.',['S','M','L','XL','XXL'],'👕','p-dark')">
       <div class="product-img-wrap">
         <div class="product-img" style="background:#e8e8e4">
@@ -531,7 +720,7 @@ footer{background:var(--black);color:var(--white);padding:4rem 4rem 2rem}
     <span class="eyebrow">Enmarcados Premium — Código Spotify incluido</span>
     <h2 class="section-title">Cuadros de Artistas</h2>
   </div>
-  <div class="products-grid">
+  <div class="products-grid" id="cuadros-grid">
     <!-- Anuel -->
     <div class="frame-card">
       <div class="poster-wrap">
@@ -757,7 +946,8 @@ footer{background:var(--black);color:var(--white);padding:4rem 4rem 2rem}
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 TheVault Studio. Todos los derechos reservados. República Dominicana.</p>
+    <p>© 2026 TheVault Studio. Todos los derechos reservados. República Dominicana.</p>
+    <p style="font-size:0.68rem;color:rgba(255,255,255,0.2);margin-top:0.3rem">Desarrollado por <span style="color:rgba(255,255,255,0.4)">Samil Geraldo Pérez</span> · 2026</p>
     <div class="payment-icons">
       <span class="pay-icon">Transferencia</span>
       <span class="pay-icon">PayPal</span>
@@ -830,7 +1020,7 @@ footer{background:var(--black);color:var(--white);padding:4rem 4rem 2rem}
 
 <script>
 // ── CONFIG ──
-const WA_NUMBER = '18094784602';// <-- Cambiar al número real
+const WA_NUMBER = '18095550000'; // <-- Cambiar al número real
 
 // ── CART STATE ──
 let cart = [];
@@ -995,6 +1185,22 @@ function subscribeEmail() {
   input.value = '';
 }
 
+// ── MOBILE MENU ──
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const toggle = document.getElementById('menuToggle');
+  menu.classList.toggle('open');
+  toggle.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('menuToggle').classList.remove('open');
+  document.body.style.overflow = '';
+}
+window.toggleMobileMenu = toggleMobileMenu;
+window.closeMobileMenu = closeMobileMenu;
+
 // ── SCROLL EFFECTS ──
 window.addEventListener('scroll', () => {
   const nav = document.getElementById('mainNav');
@@ -1002,6 +1208,283 @@ window.addEventListener('scroll', () => {
   if (window.scrollY > 80) { nav.classList.add('scrolled'); scrollTop.classList.add('visible'); }
   else { nav.classList.remove('scrolled'); scrollTop.classList.remove('visible'); }
 });
+</script>
+
+<!-- FIREBASE: carga productos del admin en tiempo real -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC0xN0Haa88gPhAJ6WNfZqmiMfqHkjN-4M",
+  authDomain: "tiendaweb1-8e981.firebaseapp.com",
+  projectId: "tiendaweb1-8e981",
+  storageBucket: "tiendaweb1-8e981.firebasestorage.app",
+  messagingSenderId: "898997882250",
+  appId: "1:898997882250:web:597fc9155e8d322032cc73"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const emojis = {abrigo:'🧥', tshirt:'👕', cuadro:'🖼️'};
+const bgColors = {abrigo:'#e8e4dc', tshirt:'#e8e8e4', cuadro:'#111'};
+
+// Carga productos desde Firebase y los inyecta en la tienda
+async function cargarProductosFirebase() {
+  try {
+    const snap = await getDocs(collection(db, 'productos'));
+    const productos = [];
+    snap.forEach(d => productos.push({id: d.id, ...d.data()}));
+
+    // Solo los activos
+    const activos = productos.filter(p => p.activo !== false);
+    if (activos.length === 0) return; // si no hay nada en Firebase, dejar los del HTML
+
+    // Separar por categoría
+    const abrigos = activos.filter(p => p.categoria === 'abrigo');
+    const tshirts = activos.filter(p => p.categoria === 'tshirt');
+    const cuadros = activos.filter(p => p.categoria === 'cuadro');
+
+    // Inyectar en cada sección
+    if (abrigos.length > 0) inyectarProductos('abrigos-grid', abrigos);
+    if (tshirts.length > 0) inyectarProductos('tshirts-grid', tshirts);
+    if (cuadros.length > 0) inyectarCuadros('cuadros-grid', cuadros);
+
+    // Cargar config (WhatsApp, banner)
+    cargarConfig();
+  } catch(e) {
+    console.log('Usando productos del HTML por defecto');
+  }
+}
+
+function inyectarProductos(gridId, productos) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  grid.innerHTML = '';
+  productos.forEach(p => {
+    const emoji = emojis[p.categoria] || '📦';
+    const bg = bgColors[p.categoria] || '#f5f5f3';
+    const precioOld = p.precioOld ? `<span class="product-old">RD$${Number(p.precioOld).toLocaleString()}</span>` : '';
+    const badge = p.badge ? `<span class="badge badge-${p.badge.toLowerCase()==='nuevo'?'new':p.badge.toLowerCase()==='hot'?'hot':'sale'}">${p.badge}</span>` : '';
+    const tallas = p.tallas && p.tallas.length > 0 ? JSON.stringify(p.tallas) : '[]';
+    grid.innerHTML += `
+      <div class="product-card" onclick="openModal('${p.nombre}','${p.categoria}','RD$${Number(p.precio).toLocaleString()}','${(p.descripcion||'').replace(/'/g,"\\'")}',${tallas},'${emoji}','')">
+        <div class="product-img-wrap">
+          <div class="product-img" style="background:${bg}">
+            <div class="img-placeholder" style="opacity:0.5"><span style="font-size:3rem">${emoji}</span></div>
+          </div>
+          ${badge}
+          <div class="product-actions">
+            <button class="add-cart-btn" onclick="event.stopPropagation();addToCart('${p.nombre}','RD$${Number(p.precio).toLocaleString()}','${emoji}')">Agregar al carrito</button>
+            <button class="wishlist-btn">♡</button>
+          </div>
+        </div>
+        <p class="product-brand">${p.categoria==='abrigo'?'Colección':p.categoria==='tshirt'?'Artistas':'Cuadros Premium'}</p>
+        <p class="product-name">${p.nombre}</p>
+        <div class="product-pricing">
+          <span class="product-price">RD$${Number(p.precio).toLocaleString()}</span>
+          ${precioOld}
+        </div>
+      </div>`;
+  });
+}
+
+function inyectarCuadros(gridId, cuadros) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  grid.innerHTML = '';
+  const pStyles = ['p-dark','p-rose','p-blue','p-warm','p-purple','p-teal','p-red','p-green'];
+  cuadros.forEach((p, i) => {
+    const style = pStyles[i % pStyles.length];
+    grid.innerHTML += `
+      <div class="frame-card">
+        <div class="poster-wrap">
+          <div class="poster poster-border ${style}" onclick="openModal('${p.nombre}','Cuadros Premium','RD$${Number(p.precio).toLocaleString()}','${(p.descripcion||'').replace(/'/g,"\\'")}',${JSON.stringify(p.tallas||[])},'🖼️','${style}')">
+            <span class="p-price">RD$${Number(p.precio).toLocaleString()}</span>
+            <div class="artist-ph"><svg class="artist-sil" width="48" height="65" viewBox="0 0 48 65" fill="none"><ellipse cx="24" cy="14" rx="11" ry="12" fill="#fff"/><path d="M2 64 C2 42 46 42 46 64" fill="#fff"/></svg></div>
+            <div>
+              <p class="artist-nm">${p.nombre.toUpperCase()}</p>
+              <p class="song-nm">${p.descripcion||''}</p>
+              <div class="spotify-row">
+                <svg class="sp-icon" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                <div class="sp-bar"></div>
+                <div class="sp-code"><span style="height:8px"></span><span style="height:14px"></span><span style="height:6px"></span><span style="height:12px"></span><span style="height:4px"></span><span style="height:10px"></span><span style="height:16px"></span><span style="height:8px"></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="poster-actions">
+            <button class="add-cart-btn" onclick="addToCart('${p.nombre}','RD$${Number(p.precio).toLocaleString()}','🖼️')">Agregar al carrito</button>
+            <button class="wishlist-btn">♡</button>
+          </div>
+        </div>
+        <p class="product-brand">Cuadros Premium</p>
+        <p class="product-name">${p.nombre}</p>
+        <div class="product-pricing"><span class="product-price">RD$${Number(p.precio).toLocaleString()}</span></div>
+      </div>`;
+  });
+}
+
+async function cargarConfig() {
+  try {
+    const snap = await getDoc(doc(db, 'config', 'tienda'));
+    if (snap.exists()) {
+      const d = snap.data();
+      if (d.whatsapp) window.WA_NUMBER = d.whatsapp;
+      if (d.banner && d.envioGratis !== false) {
+        const topbar = document.querySelector('.topbar');
+        if (topbar) topbar.innerHTML = `🚚 ${d.banner}`;
+      }
+    }
+  } catch(e) {}
+}
+
+cargarProductosFirebase();
+</script>
+
+<!-- FASE 2: Anuncios, Reels, Categorías desde Firebase -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC0xN0Haa88gPhAJ6WNfZqmiMfqHkjN-4M",
+  authDomain: "tiendaweb1-8e981.firebaseapp.com",
+  projectId: "tiendaweb1-8e981",
+  storageBucket: "tiendaweb1-8e981.firebasestorage.app",
+  messagingSenderId: "898997882250",
+  appId: "1:898997882250:web:597fc9155e8d322032cc73"
+};
+
+const app2 = initializeApp(firebaseConfig, 'fase2');
+const db2 = getFirestore(app2);
+
+// ── ANUNCIOS ──
+async function cargarAnuncios() {
+  try {
+    const snap = await getDocs(collection(db2, 'anuncios'));
+    const anuncios = [];
+    snap.forEach(d => anuncios.push({id: d.id, ...d.data()}));
+    const activos = anuncios.filter(a => a.activo !== false);
+
+    activos.forEach(a => {
+      if (a.tipo === 'banner' || a.tipo === 'oferta') {
+        const bar = document.createElement('div');
+        bar.className = `anuncio-bar ${a.color || 'black'}`;
+        bar.style.display = 'block';
+        bar.innerHTML = `
+          ${a.nombre}
+          ${a.subtexto ? `<span style="opacity:0.7;margin-left:0.8rem">· ${a.subtexto}</span>` : ''}
+          <button class="close-anuncio" onclick="this.parentElement.remove()">✕</button>
+        `;
+        document.getElementById('anunciosBarContainer').appendChild(bar);
+      }
+      if (a.tipo === 'popup') {
+        const popup = document.getElementById('anuncioPopup');
+        document.getElementById('popupTitle').textContent = a.nombre;
+        document.getElementById('popupSub').textContent = a.subtexto || '';
+        setTimeout(() => popup.classList.add('show'), 1500);
+      }
+    });
+
+    // Hide default topbar if we have banners
+    const hasBanners = activos.some(a => a.tipo === 'banner' || a.tipo === 'oferta');
+    if (hasBanners) document.getElementById('topbarDefault').style.display = 'none';
+  } catch(e) { console.log('Sin anuncios en Firebase'); }
+}
+
+// ── REELS ──
+async function cargarReels() {
+  try {
+    const snap = await getDocs(collection(db2, 'reels'));
+    const reels = [];
+    snap.forEach(d => reels.push({id: d.id, ...d.data()}));
+    const activos = reels.filter(r => r.activo !== false);
+    if (activos.length === 0) return;
+
+    const track = document.getElementById('reelsTrack');
+    track.innerHTML = '';
+    activos.forEach(r => {
+      const div = document.createElement('div');
+      div.className = 'reel-item';
+      if (r.videoUrl) {
+        div.innerHTML = `
+          <video class="reel-video" src="${r.videoUrl}" muted loop playsinline preload="metadata"></video>
+          <div class="reel-overlay">
+            <div class="reel-play"></div>
+            <p class="reel-label">${r.titulo || ''}</p>
+            <p class="reel-sub">${r.subtitulo || ''}</p>
+          </div>
+        `;
+        div.onclick = () => openReel(r.videoUrl);
+        // Auto-play on hover
+        const vid = div.querySelector('video');
+        div.addEventListener('mouseenter', () => vid.play());
+        div.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
+      } else {
+        div.innerHTML = `<div class="reel-placeholder"><span>🎬</span><p>${r.titulo || 'Video próximamente'}</p></div>`;
+      }
+      track.appendChild(div);
+    });
+  } catch(e) { console.log('Sin reels en Firebase'); }
+}
+
+// ── CATEGORIAS DINAMICAS ──
+async function cargarCategorias() {
+  try {
+    const snap = await getDocs(collection(db2, 'categorias'));
+    const cats = [];
+    snap.forEach(d => cats.push({id: d.id, ...d.data()}));
+    const activas = cats.filter(c => c.activa !== false).sort((a,b) => (a.orden||0)-(b.orden||0));
+    if (activas.length === 0) return;
+
+    const container = document.querySelector('.cats');
+    if (!container) return;
+    container.innerHTML = '';
+    activas.forEach(c => {
+      const div = document.createElement('div');
+      div.className = 'cat';
+      div.onclick = () => {
+        const el = document.getElementById(c.id);
+        if (el) el.scrollIntoView({behavior:'smooth'});
+      };
+      div.innerHTML = `
+        <span class="cat-icon">${c.icono || '📦'}</span>
+        <h3 class="cat-name">${c.nombre}</h3>
+        <p class="cat-desc">${c.descripcion || ''}</p>
+        <span class="cat-count">${c.cantidad || ''}</span>
+        <span class="cat-arrow">↗</span>
+      `;
+      container.appendChild(div);
+    });
+  } catch(e) { console.log('Usando categorías del HTML'); }
+}
+
+// ── REEL MODAL ──
+window.openReel = (url) => {
+  const modal = document.getElementById('reelModal');
+  const video = document.getElementById('reelVideo');
+  video.src = url;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+window.closeReel = () => {
+  const modal = document.getElementById('reelModal');
+  const video = document.getElementById('reelVideo');
+  video.pause();
+  video.src = '';
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+};
+
+// Close reel on background click
+document.getElementById('reelModal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) window.closeReel();
+});
+
+cargarAnuncios();
+cargarReels();
+cargarCategorias();
 </script>
 </body>
 </html>
